@@ -15,17 +15,21 @@
 	<body class="is-preload">
 		<div id="wrapper">
 			<div id="bg"></div>
-			<div id="overlay"></div>
+			<!--<div id="overlay"></div>-->
 			<div id="main">
 
 				<!-- Header -->
 					<header id="header">
 						<h1>Coming Soon!</h1>
 						<p>More Info on the 8th of August 2025</p>
+                        <p id="countdown"></p>
+                        
+                        
 					</header>
 
 				<!-- Footer -->
 					<footer id="footer">
+                        <p>PSVP before May 8th 2026</p>
 					</footer>
 
 			</div>
@@ -34,6 +38,23 @@
 			window.onload = function() { document.body.classList.remove('is-preload'); }
 			window.ontouchmove = function() { return false; }
 			window.onorientationchange = function() { document.body.scrollTop = 0; }
+            const targetDate = new Date("2026-08-08T00:00:00");
+
+            function updateCountdown() {
+                const now = new Date();
+                const diff = targetDate - now;
+
+                if (diff <= 0) {
+                    document.getElementById("countdown").innerHTML = "It's the wedding day!";
+                    return;
+                }
+
+                const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+                document.getElementById("countdown").innerHTML = "Countdown to Wedding: " + days + " days";
+            }
+
+            updateCountdown(); // initial call
+            setInterval(updateCountdown, 60 * 60 * 1000); // update once per hour
 		</script>
 	</body>
 </html>
