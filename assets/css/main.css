@@ -556,7 +556,7 @@ input, select, textarea {
 	}
 
 		#header h1 {
-			font-size: 5em;
+			font-size: 5.5em;
 			font-weight: normal;
 			letter-spacing: -0.035em;
 			text-shadow: 2px 2px 2px #aaa;
@@ -565,20 +565,20 @@ input, select, textarea {
 		}
 
 		#header p {
-			font-size: 1.25em;
+			font-size: 1.5em;
 			margin: 0.75em 0 0.25em 0;
 			/*font-weight: 600;*/
 			text-shadow: 2px 2px 2px #aaa;
 			opacity: 1;
-			font-family: 'Bilbo Swash Caps', cursive;
+			font-family: 'Georgia';
 		}
 		#countdown {
-			font-size: 1.2em;
+			font-size: 1.5em;
 			margin-top: 0.5em;
 			text-shadow: 2px 2px 2px #aaa;
 			/*font-weight: 600;*/
 			opacity: 1;
-			font-family: 'Bilbo Swash Caps', cursive;
+			font-family: 'Georgia';
 		}
 
 		#header nav {
@@ -742,12 +742,10 @@ input, select, textarea {
 		left: 0;
 		width: 100%;
 		z-index: 1000;
-		text-shadow: 2px 2px 2px #aaa;
 		text-align: center;
-		font-family: 'Bilbo Swash Caps', cursive;
+		font-family: 'Georgia';
 		font-size: 1.2em;
 		padding: 1em 0;
-
 		opacity: 0;
 		animation: footerFadeIn 1s ease-in-out 2s forwards;
 	}
