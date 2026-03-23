@@ -15,6 +15,86 @@
 	</head>
 	<body class="is-preload">
 
+		<!-- Password Gate -->
+		<div id="password-gate">
+			<div id="password-box">
+				<div class="password-logo">
+					<img src="images/engagement.png" alt="M & M">
+				</div>
+				<h1>Maja & Mikael</h1>
+				<p class="password-hint">
+					<span class="lang-gate-se">Ange lösenordet för att komma in</span>
+					<span class="lang-gate-en" style="display:none">Enter the password to continue</span>
+				</p>
+				<div class="password-lang-toggle">
+					<span onclick="setGateLang('se')" id="gate-se" class="gate-lang-btn active">SV</span>
+					<span onclick="setGateLang('en')" id="gate-en" class="gate-lang-btn">EN</span>
+				</div>
+				<div class="password-input-row">
+					<input type="password" id="gate-input" placeholder="Lösenord" autocomplete="off" />
+					<button onclick="checkPassword()">→</button>
+				</div>
+				<p id="gate-error" style="display:none">
+					<span class="lang-gate-se">Fel lösenord. Försök igen.</span>
+					<span class="lang-gate-en" style="display:none">Incorrect password. Try again.</span>
+				</p>
+			</div>
+		</div>
+
+		<script>
+			(function() {
+				if (sessionStorage.getItem('mm26_auth') === 'true') {
+					document.getElementById('password-gate').style.display = 'none';
+				}
+			})();
+
+			function checkPassword() {
+				var val = document.getElementById('gate-input').value;
+				if (val === 'MM26') {
+					sessionStorage.setItem('mm26_auth', 'true');
+					var gate = document.getElementById('password-gate');
+					gate.style.opacity = '0';
+					gate.style.transition = 'opacity 0.6s ease';
+					setTimeout(function() { gate.style.display = 'none'; }, 620);
+				} else {
+					var err = document.getElementById('gate-error');
+					err.style.display = 'block';
+					var input = document.getElementById('gate-input');
+					input.value = '';
+					input.classList.add('shake');
+					setTimeout(function() { input.classList.remove('shake'); }, 500);
+				}
+			}
+
+			document.addEventListener('DOMContentLoaded', function() {
+				var input = document.getElementById('gate-input');
+				if (input) {
+					input.addEventListener('keydown', function(e) {
+						if (e.key === 'Enter') checkPassword();
+					});
+				}
+			});
+
+			function setGateLang(lang) {
+				var seEls = document.querySelectorAll('.lang-gate-se');
+				var enEls = document.querySelectorAll('.lang-gate-en');
+				var placeholder = document.getElementById('gate-input');
+				if (lang === 'se') {
+					seEls.forEach(function(el) { el.style.display = ''; });
+					enEls.forEach(function(el) { el.style.display = 'none'; });
+					document.getElementById('gate-se').classList.add('active');
+					document.getElementById('gate-en').classList.remove('active');
+					placeholder.placeholder = 'Lösenord';
+				} else {
+					seEls.forEach(function(el) { el.style.display = 'none'; });
+					enEls.forEach(function(el) { el.style.display = ''; });
+					document.getElementById('gate-se').classList.remove('active');
+					document.getElementById('gate-en').classList.add('active');
+					placeholder.placeholder = 'Password';
+				}
+			}
+		</script>
+
 		<!-- Wrapper -->
 			<div id="wrapper">
 				<div class="lang-switcher">
@@ -83,6 +163,10 @@
 								<li><a href="#osa">
 									<span class="lang lang-se">OSA Här</span>
 									<span class="lang lang-en">RSVP Here</span>
+								</a></li>
+								<li><a href="#registry">
+									<span class="lang lang-se">Bröllopsregister</span>
+									<span class="lang lang-en">Wedding Registry</span>
 								</a></li>
 
 								<!--<li><a href="#elements">Elements</a></li>-->
@@ -235,40 +319,95 @@
 									<span class="lang lang-se">OSA Här</span>
 									<span class="lang lang-en">RSVP Here</span>
 								</h2>
-								<form method="post" action="https://script.google.com/macros/s/AKfycbwHB--78XHMRzg9s8Ncz0XvUyzvekyOaJmcQY6UOYge8Lk_93GJpqivsSTtVojWNwVR/exec">
-									<div class="fields">
-										<div class="field half">
-											<label for="name">
-												<span class="lang lang-se">Namn</span>
-												<span class="lang lang-en">Name</span>
-											</label>
-											<input type="text" name="name" id="name" />
+								<div id="rsvpFormWrap">
+									<form id="rsvpForm">
+										<div class="fields">
+											<div class="field half">
+												<label for="name">
+													<span class="lang lang-se">Namn</span>
+													<span class="lang lang-en">Name</span>
+												</label>
+												<input type="text" name="name" id="name" />
+											</div>
+											<div class="field half">
+												<label for="email">
+													<span class="lang lang-se">E-post Adress</span>
+													<span class="lang lang-en">Email</span>
+												</label>
+												<input type="text" name="email" id="email" />
+											</div>
+											<div class="field">
+												<label for="message">
+													<span class="lang lang-se">Meddelande*</span>
+													<span class="lang lang-en">Message</span>
+												</label>
+												<textarea name="message" id="message" rows="4"></textarea>
+											</div>
 										</div>
-										<div class="field half">
-											<label for="email">
-												<span class="lang lang-se">E-post Adress</span>
-												<span class="lang lang-en">Email</span>
-											</label>
-											<input type="text" name="email" id="email" />
-										</div>
-										<div class="field">
-											<label for="message">
-												<span class="lang lang-se">Meddelande*</span>
-												<span class="lang lang-en">Message</span>
-											</label>
-											<textarea name="message" id="message" rows="4"></textarea>
-										</div>
-									</div>
-									<h4>
-										<span class="lang lang-se">* Tänker du OSA för flera inbjudna? Lägg till deras namn i Meddelande boxen. Lägg även till om du har några allergier eller kostpreferenser.</span>
-										<span class="lang lang-en">* Need to RSVP for more than one person? Please add their names in the Message box. Also, please include any allergies or dietary preferences.</span>
-									</h4>
-									<ul class="actions">
-										<li><input type="submit" value="Skicka / Send Message" class="primary" /></li>
-										<li><input type="reset" value="Reset" /></li>
+										<h4>
+											<span class="lang lang-se">* Tänker du OSA för flera inbjudna? Lägg till deras namn i Meddelande boxen. Lägg även till om du har några allergier eller kostpreferenser.</span>
+											<span class="lang lang-en">* Need to RSVP for more than one person? Please add their names in the Message box. Also, please include any allergies or dietary preferences.</span>
+										</h4>
+										<ul class="actions">
+											<li><button type="submit" class="button primary">
+												<span class="lang lang-se">Skicka</span>
+												<span class="lang lang-en">Send</span>
+											</button></li>
+											<li><button type="reset" class="button">Reset</button></li>
+										</ul>
+									</form>
+								</div>
+								<div id="rsvpSuccess" style="display:none; text-align:center; padding: 2rem 0;">
+									<p style="font-size:1.1rem; margin-bottom:1.5rem;">
+										<span class="lang lang-se">Tack så mycket! Vi har tagit emot din OSA och ser fram emot att fira med dig!</span>
+										<span class="lang lang-en">Thank you so much! We have received your RSVP and look forward to celebrating with you!</span>
+									</p>
+									<ul class="actions" style="justify-content:center;">
+										<li><button type="button" class="button" id="rsvpSuccessBack">
+											<span class="lang lang-se">Tillbaka</span>
+											<span class="lang lang-en">Go back</span>
+										</button></li>
 									</ul>
-								</form>
-								
+								</div>
+								<script>
+									(function () {
+										var RSVP_URL = 'https://script.google.com/macros/s/AKfycbwHB--78XHMRzg9s8Ncz0XvUyzvekyOaJmcQY6UOYge8Lk_93GJpqivsSTtVojWNwVR/exec';
+										var form = document.getElementById('rsvpForm');
+										var formWrap = document.getElementById('rsvpFormWrap');
+										var successDiv = document.getElementById('rsvpSuccess');
+										var backBtn = document.getElementById('rsvpSuccessBack');
+										var submitBtn = form.querySelector('button[type="submit"]');
+
+										form.addEventListener('submit', function (e) {
+											e.preventDefault();
+											e.stopPropagation();
+											submitBtn.disabled = true;
+											fetch(RSVP_URL, {
+												method: 'POST',
+												mode: 'no-cors',
+												body: new URLSearchParams({
+													name: form.elements.name.value,
+													email: form.elements.email.value,
+													message: form.elements.message.value
+												})
+											}).then(function () {
+												formWrap.style.display = 'none';
+												successDiv.style.display = 'block';
+											}).catch(function () {
+												formWrap.style.display = 'none';
+												successDiv.style.display = 'block';
+											});
+										});
+
+										backBtn.addEventListener('click', function (e) {
+											e.stopPropagation();
+											form.reset();
+											submitBtn.disabled = false;
+											successDiv.style.display = 'none';
+											formWrap.style.display = 'block';
+										});
+									})();
+								</script>
 							</article>
 
 						<!-- Elements -->
@@ -513,6 +652,447 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 
 							</article>
 
+					<!-- Registry -->
+						<article id="registry">
+							<h2 class="major">
+								<span class="lang lang-se">Bröllopsregister</span>
+								<span class="lang lang-en">Wedding Registry</span>
+							</h2>
+							<p>
+								<span class="lang lang-se active">Vi beger oss till Mexico för vår bröllopsresa och det vore en dröm om ni vill vara med och bidra till vår smekmånad. Har ni idetorka ta en titt på aktiviteterna nedan, hittar ni någon ni gillar så kan ni &#8220;reservera&#8221; den som en bröllopsgåva till oss!</span>
+								<span class="lang lang-en">We&#x2019;re heading to Mexico for our honeymoon and it would be a delight if you&#x2019;d like to contribute to our adventures. If you are having trouble choosing, feel free to be inspired by the activities below. Choose an activity below and reserve it as your wedding gift to us!</span>
+							</p>
+
+							<div class="registry-grid">
+
+								<!-- Card: Honeymoon Contribution -->
+								<div class="registry-card" data-activity="Bidra till Smekmånaden" data-lockable="false">
+									<div class="registry-card-img">
+										<div class="registry-card-img-inner" style="background-image: url('images/bidra.jpg'); background-color: #667eea"></div>
+									</div>
+									<div class="registry-card-body">
+										<div class="registry-card-title">
+											<span class="lang lang-se active">Bidra till Smekmånaden</span>
+											<span class="lang lang-en">Sponsor Our Honeymoon</span>
+										</div>
+										<div class="registry-card-cost">
+											<span class="lang lang-se active">Valfri summa</span>
+											<span class="lang lang-en">Any amount</span>
+										</div>
+										<p class="registry-card-desc">
+											<span class="lang lang-se active">Bidra med valfri summa till vår smekmånadsresa. Varje krona gör vår resa lite mer magisk!</span>
+											<span class="lang lang-en">Contribute any amount toward our honeymoon adventure. Every bit makes our trip more magical!</span>
+										</p>
+										<button class="registry-card-btn" data-action="sponsor">
+											<span class="lang lang-se active">Bidra</span>
+											<span class="lang lang-en">Contribute</span>
+										</button>
+									</div>
+								</div>
+
+								<!-- Card: Taco & Mezcal Tour -->
+								<div class="registry-card" data-activity="Taco &amp; Mezcal-tur" data-lockable="true">
+									<div class="registry-card-img">
+										<div class="registry-card-img-inner" style="background-image: url('images/5mpht0M5H0E_taco_mescal.jpg'); background-color: #7a1e1e;"></div>
+									</div>
+									<div class="registry-card-body">
+										<div class="registry-card-title">
+											<span class="lang lang-se active">Taco &amp; Mezcal-tur</span>
+											<span class="lang lang-en">Taco &amp; Mezcal Tour</span>
+										</div>
+										<div class="registry-card-cost">
+											<span class="lang lang-se active">2 500 sek · Mexico City</span>
+											<span class="lang lang-en">2 500 sek · Mexico City</span>
+										</div>
+										<p class="registry-card-desc">
+											<span class="lang lang-se active">En tre timmars guidad mattur genom Mexico Citys bästa tacostånden och mezcalbarer – en smakresa genom stadens kulinariska hjärta.</span>
+											<span class="lang lang-en">A three-hour guided food tour through Mexico City's best taco stalls and mezcal bars – a flavour journey through the city's culinary heart.</span>
+										</p>
+										<button class="registry-card-btn" data-action="reserve">
+											<span class="lang lang-se active">Reservera</span>
+											<span class="lang lang-en">Reserve</span>
+										</button>
+									</div>
+								</div>
+
+								<!-- Card: Fine Dining – Pujol -->
+								<div class="registry-card" data-activity="Exklusiv Middag – Pujol" data-lockable="true">
+									<div class="registry-card-img">
+										<div class="registry-card-img-inner" style="background-image: url('images/tkfV4_59gxw_Pujol.jpg'); background-color: #1a1008;"></div>
+									</div>
+									<div class="registry-card-body">
+										<div class="registry-card-title">
+											<span class="lang lang-se active">Exklusiv Middag – Pujol</span>
+											<span class="lang lang-en">Fine Dining – Pujol</span>
+										</div>
+										<div class="registry-card-cost">
+											<span class="lang lang-se active">5 000 sek · Mexico City</span>
+											<span class="lang lang-en">5 000 sek · Mexico City</span>
+										</div>
+										<p class="registry-card-desc">
+											<span class="lang lang-se active">Oförglömlig tastingmeny på Pujol – ett av Latinamerikas bästa restauranger med två Michelin-stjärnor, ledd av kocklegenden Enrique Olvera. </span>
+											<span class="lang lang-en">Unforgettable tasting menu at Pujol – one of Latin America's finest restaurants with two Michelin stars, led by chef legend Enrique Olvera.</span>
+										</p>
+										<button class="registry-card-btn" data-action="reserve">
+											<span class="lang lang-se active">Reservera</span>
+											<span class="lang lang-en">Reserve</span>
+										</button>
+									</div>
+								</div>
+
+								<!-- Card: Sunrise Hot Air Balloon – Teotihuacán -->
+								<div class="registry-card" data-activity="Soluppgång i Luftballong – Teotihuacán" data-lockable="true">
+									<div class="registry-card-img">
+										<div class="registry-card-img-inner" style="background-image: url('images/d8DGnvOk2ro_hot_air_balloon_teotihuacan.jpg'); background-color: #4a2c00;"></div>
+									</div>
+									<div class="registry-card-body">
+										<div class="registry-card-title">
+											<span class="lang lang-se active">Soluppgång i Luftballong – Teotihuacán</span>
+											<span class="lang lang-en">Sunrise Hot Air Balloon – Teotihuacán</span>
+										</div>
+										<div class="registry-card-cost">
+											<span class="lang lang-se active">3 750 sek · Mexico City</span>
+											<span class="lang lang-en">3 750 sek · Mexico City</span>
+										</div>
+										<p class="registry-card-desc">
+											<span class="lang lang-se active">Sväva upp vid gryningen och se Teotihuacáns mäktiga pyramider vakna till liv i morgonljuset – frukost och bubbel på marken ingår efteråt.</span>
+											<span class="lang lang-en">Soar above the ancient pyramids at sunrise as Teotihuacán awakens in golden morning light – with breakfast on the ground included afterwards.</span>
+										</p>
+										<button class="registry-card-btn" data-action="reserve">
+											<span class="lang lang-se active">Reservera</span>
+											<span class="lang lang-en">Reserve</span>
+										</button>
+									</div>
+								</div>
+
+								<!-- Card: Museum Tour -->
+								<div class="registry-card" data-activity="Museumstur – Mexico City" data-lockable="true">
+									<div class="registry-card-img">
+										<div class="registry-card-img-inner" style="background-image: url('images/museum.jpg'); background-color: #1a0a2e;"></div>
+									</div>
+									<div class="registry-card-body">
+										<div class="registry-card-title">
+											<span class="lang lang-se active">Museumstur</span>
+											<span class="lang lang-en">Museum Tour</span>
+										</div>
+										<div class="registry-card-cost">
+											<span class="lang lang-se active">500 sek · Mexico City</span>
+											<span class="lang lang-en">500 sek · Mexico City</span>
+										</div>
+										<p class="registry-card-desc">
+											<span class="lang lang-se active">Kulturpärla nummer ett: Museo Nacional de Antropología, Frida Khalo Museum m.m – Museum hoppning i världsklass.</span>
+											<span class="lang lang-en">Mexico City's crown jewel: the Museo Nacional de Antropología, Frida Khalo Museum, etc. – Museum crawl at its finest.</span>
+										</p>
+										<button class="registry-card-btn" data-action="reserve">
+											<span class="lang lang-se active">Reservera</span>
+											<span class="lang lang-en">Reserve</span>
+										</button>
+									</div>
+								</div>
+
+								<!-- Card: Guided City Walk -->
+								<div class="registry-card" data-activity="Guidad Stadsvandring – Mexico City" data-lockable="true">
+									<div class="registry-card-img">
+										<div class="registry-card-img-inner" style="background-image: url('images/street_tour.png'); background-color: #1a0a2e;"></div>
+									</div>
+									<div class="registry-card-body">
+										<div class="registry-card-title">
+											<span class="lang lang-se active">Guidad Stadsvandring</span>
+											<span class="lang lang-en">Guided City Walk</span>
+										</div>
+										<div class="registry-card-cost">
+											<span class="lang lang-se active">500 sek · Mexico City</span>
+											<span class="lang lang-en">500 sek · Mexico City</span>
+										</div>
+										<p class="registry-card-desc">
+											<span class="lang lang-se active">Vandring genom Mexico Citys historiska centrum – förbi Zócalo, Templo Mayor och koloniala palats med en kunnig lokal guide som berättar stadens rika historia.</span>
+											<span class="lang lang-en">Walk through Mexico City's historic centre – past the Zócalo, Templo Mayor, and colonial palaces with a knowledgeable local guide bringing the city's rich history to life.</span>
+										</p>
+										<button class="registry-card-btn" data-action="reserve">
+											<span class="lang lang-se active">Reservera</span>
+											<span class="lang lang-en">Reserve</span>
+										</button>
+									</div>
+								</div>
+
+								<!-- Card: Lucha Libre -->
+								<div class="registry-card" data-activity="Lucha Libre med Tacos &amp; Öl" data-lockable="true">
+									<div class="registry-card-img">
+										<div class="registry-card-img-inner" style="background-image: url('images/OebdsI0Q4F0_Lucha_Libre.jpeg'); background-color: #1a0a2e;"></div>
+									</div>
+									<div class="registry-card-body">
+										<div class="registry-card-title">
+											<span class="lang lang-se active">Lucha Libre med Tacos &amp; Öl</span>
+											<span class="lang lang-en">Lucha Libre with Tacos &amp; Beer</span>
+										</div>
+										<div class="registry-card-cost">
+											<span class="lang lang-se active">1 750 sek · Mexico City</span>
+											<span class="lang lang-en">1 750 sek · Mexico City</span>
+										</div>
+										<p class="registry-card-desc">
+											<span class="lang lang-se active">Den ultimata mexikanska kvällen – lucha libre-brottning med flygande masker, tacos i handen och kall öl i glaset. Bästa kvällen ever!</span>
+											<span class="lang lang-en">The ultimate Mexican evening – lucha libre wrestling with soaring masks, tacos in hand, and cold beer in the glass. Best night ever!</span>
+										</p>
+										<button class="registry-card-btn" data-action="reserve">
+											<span class="lang lang-se active">Reservera</span>
+											<span class="lang lang-en">Reserve</span>
+										</button>
+									</div>
+								</div>
+
+								<!-- Card: Tulum Ruins & Beach Day -->
+								<div class="registry-card" data-activity="Tulum-ruiner &amp; Stranddag" data-lockable="true">
+									<div class="registry-card-img">
+										<div class="registry-card-img-inner" style="background-image: url('images/z_b5fhL2wyc_Tulum_Ruins.jpg'); background-color: #0d4a5e;"></div>
+									</div>
+									<div class="registry-card-body">
+										<div class="registry-card-title">
+											<span class="lang lang-se active">Tulum-ruiner &amp; Stranddag</span>
+											<span class="lang lang-en">Tulum Ruins &amp; Beach Day</span>
+										</div>
+										<div class="registry-card-cost">
+											<span class="lang lang-se active">Tulum</span>
+											<span class="lang lang-en">Tulum</span>
+										</div>
+										<p class="registry-card-desc">
+											<span class="lang lang-se active">Utforska de ikoniska maya-ruinerna högt ovan det turkosa karibiska havet – kombinerat med en dag av sol, snorkling och sköldpaddor vid stranden nedanför.</span>
+											<span class="lang lang-en">Explore the iconic Mayan ruins perched above the turquoise Caribbean sea – combined with a day of sun, snorkeling, and sea turtles on the beach below.</span>
+										</p>
+										<button class="registry-card-btn" data-action="reserve">
+											<span class="lang lang-se active">Reservera</span>
+											<span class="lang lang-en">Reserve</span>
+										</button>
+									</div>
+								</div>
+
+								<!-- Card: Cenote Adventure -->
+								<div class="registry-card" data-activity="Cenote-utflykt" data-lockable="true">
+									<div class="registry-card-img">
+										<div class="registry-card-img-inner" style="background-image: url('images/sc7iU9zOhxM-cenote.jpg'); background-color: #041a2e;"></div>
+									</div>
+									<div class="registry-card-body">
+										<div class="registry-card-title">
+											<span class="lang lang-se active">Cenote-utflykt</span>
+											<span class="lang lang-en">Cenote Adventure</span>
+										</div>
+										<div class="registry-card-cost">
+											<span class="lang lang-se active">3 200 sek · Tulum</span>
+											<span class="lang lang-en">3 200 sek · Tulum</span>
+										</div>
+										<p class="registry-card-desc">
+											<span class="lang lang-se active">Snorkla och utforska Yucatáns underjordiska cenote-system med kristallklart vatten och imponerande stalaktiter – en av halvöns mest magiska upplevelser.</span>
+											<span class="lang lang-en">Snorkel and explore Yucatán's underground cenote system with crystal-clear water and impressive stalactites – one of the peninsula's most magical experiences.</span>
+										</p>
+										<button class="registry-card-btn" data-action="reserve">
+											<span class="lang lang-se active">Reservera</span>
+											<span class="lang lang-en">Reserve</span>
+										</button>
+									</div>
+								</div>
+
+								<!-- Card: Snorkeling with Sea Turtles -->
+								<div class="registry-card" data-activity="Snorkling med Sköldpaddor i Akumal" data-lockable="true">
+									<div class="registry-card-img">
+										<div class="registry-card-img-inner" style="background-image: url('images/_GqwoiT7QY8_Turtle.jpg'); background-color: #003d5c;"></div>
+									</div>
+									<div class="registry-card-body">
+										<div class="registry-card-title">
+											<span class="lang lang-se active">Snorkling med Sköldpaddor i Akumal</span>
+											<span class="lang lang-en">Snorkeling with Sea Turtles in Akumal</span>
+										</div>
+										<div class="registry-card-cost">
+											<span class="lang lang-se active">3 200 sek · Tulum</span>
+											<span class="lang lang-en">3 200 sek · Tulum</span>
+										</div>
+										<p class="registry-card-desc">
+											<span class="lang lang-se active">Simma med vilda gröna sköldpaddor i det kristallklara vattnet vid Akumal – en av världens bästa platser för att möta dessa havsjättar på nära håll.</span>
+											<span class="lang lang-en">Swim alongside wild green sea turtles in the crystal-clear waters of Akumal – one of the world's best spots to encounter these ocean giants up close.</span>
+										</p>
+										<button class="registry-card-btn" data-action="reserve">
+											<span class="lang lang-se active">Reservera</span>
+											<span class="lang lang-en">Reserve</span>
+										</button>
+									</div>
+								</div>
+
+								<!-- Card: Spa & Massage -->
+								<div class="registry-card" data-activity="Spa &amp; Massage – Tulum" data-lockable="true">
+									<div class="registry-card-img">
+										<div class="registry-card-img-inner" style="background-image: url('images/spa-tulum.jpg'); background-color: #2a4a1a;"></div>
+									</div>
+									<div class="registry-card-body">
+										<div class="registry-card-title">
+											<span class="lang lang-se active">Spa &amp; Massage</span>
+											<span class="lang lang-en">Spa &amp; Massage</span>
+										</div>
+										<div class="registry-card-cost">
+											<span class="lang lang-se active">1 500 sek · Tulum</span>
+											<span class="lang lang-en">1 500 sek · Tulum</span>
+										</div>
+										<p class="registry-card-desc">
+											<span class="lang lang-se active">En dag av total avkoppling på Conrad Tulum Riviera Maya Spa – djungelomgiven lyx med massagebehandlingar och välmåendeterapi med havet som fond.</span>
+											<span class="lang lang-en">A day of total relaxation at Conrad Tulum Riviera Maya Spa – jungle-surrounded luxury with massage treatments and wellness therapies with the sea as backdrop.</span>
+										</p>
+										<button class="registry-card-btn" data-action="reserve">
+											<span class="lang lang-se active">Reservera</span>
+											<span class="lang lang-en">Reserve</span>
+										</button>
+									</div>
+								</div>
+
+								<!-- Card: Fine Dining Tulum -->
+								<div class="registry-card" data-activity="Exklusiv Middag i Tulum" data-lockable="true">
+									<div class="registry-card-img">
+										<div class="registry-card-img-inner" style="background-image: url('images/gu5qNU0q6ZI_tulum_dinner.jpg'); background-color: #1a1008;"></div>
+									</div>
+									<div class="registry-card-body">
+										<div class="registry-card-title">
+											<span class="lang lang-se active">Exklusiv Middag i Tulum</span>
+											<span class="lang lang-en">Fine Dining in Tulum</span>
+										</div>
+										<div class="registry-card-cost">
+											<span class="lang lang-se active">2 500 sek · Tulum</span>
+											<span class="lang lang-en">2 500 sek · Tulum</span>
+										</div>
+										<p class="registry-card-desc">
+											<span class="lang lang-se active">En romantisk middagsupplevelse på ett av Tulums ikoniska restauranger – kanske djupt inne i djungeln eller med utsikt mot det karibiska havet.</span>
+											<span class="lang lang-en">A romantic dining experience at one of Tulum's iconic restaurants – perhaps deep in the jungle or with sweeping views over the Caribbean sea.</span>
+										</p>
+										<button class="registry-card-btn" data-action="reserve">
+											<span class="lang lang-se active">Reservera</span>
+											<span class="lang lang-en">Reserve</span>
+										</button>
+									</div>
+								</div>
+
+								<!-- Card: Bioluminescence Tour -->
+								<div class="registry-card" data-activity="Bioluminiscens-tur på Kvällen" data-lockable="true">
+									<div class="registry-card-img">
+										<div class="registry-card-img-inner" style="background-image: url('images/KpHR7ecgsRY_Bioluminescence.jpg'); background-color: #020c1b;"></div>
+									</div>
+									<div class="registry-card-body">
+										<div class="registry-card-title">
+											<span class="lang lang-se active">Bioluminiscens-tur på Kvällen</span>
+											<span class="lang lang-en">Evening Bioluminescence Tour</span>
+										</div>
+										<div class="registry-card-cost">
+											<span class="lang lang-se active">1 100 sek · Holbox</span>
+											<span class="lang lang-en">1 100 sek · Holbox</span>
+										</div>
+										<p class="registry-card-desc">
+											<span class="lang lang-se active">Paddla kajak i mörkret på Holbox medan vattnet runt om dig glöder av magiskt blått bioluminiscent ljus – en surrealistisk och fullständigt oförglömlig upplevelse.</span>
+											<span class="lang lang-en">Paddle kayak through the darkness in Holbox as the water around you glows with magical blue bioluminescent light – a surreal and utterly unforgettable experience.</span>
+										</p>
+										<button class="registry-card-btn" data-action="reserve">
+											<span class="lang lang-se active">Reservera</span>
+											<span class="lang lang-en">Reserve</span>
+										</button>
+									</div>
+								</div>
+
+								<!-- Card: Three Islands Boat Tour -->
+								<div class="registry-card" data-activity="Tre Öar Båttur – Holbox" data-lockable="true">
+									<div class="registry-card-img">
+										<div class="registry-card-img-inner" style="background-image: url('images/ONObTZNkkz0_Three_Islands_Boat.jpg'); background-color: #0a3d5c;"></div>
+									</div>
+									<div class="registry-card-body">
+										<div class="registry-card-title">
+											<span class="lang lang-se active">"Tre Öar" Båttur</span>
+											<span class="lang lang-en">"Three Islands" Boat Tour</span>
+										</div>
+										<div class="registry-card-cost">
+											<span class="lang lang-se active">1 000 sek · Holbox</span>
+											<span class="lang lang-en">1 000 sek · Holbox</span>
+										</div>
+										<p class="registry-card-desc">
+											<span class="lang lang-se active">Guidad båttur till tre fantastiska öar runt Holbox – med tid för snorkling, solbad och det klarblå karibiska vattnet.</span>
+											<span class="lang lang-en">Guided boat tour to three stunning islands around Holbox – with time for snorkeling, sunbathing, and the crystal-blue Caribbean waters.</span>
+										</p>
+										<button class="registry-card-btn" data-action="reserve">
+											<span class="lang lang-se active">Reservera</span>
+											<span class="lang lang-en">Reserve</span>
+										</button>
+									</div>
+								</div>
+
+								<!-- Card: Golf Cart Rental -->
+								<div class="registry-card" data-activity="Golfbilsuthyrning – Holbox" data-lockable="true">
+									<div class="registry-card-img">
+										<div class="registry-card-img-inner" style="background-image: url('images/golf-cart.jpg'); background-color: #2a4a1a;"></div>
+									</div>
+									<div class="registry-card-body">
+										<div class="registry-card-title">
+											<span class="lang lang-se active">Golfbilsuthyrning</span>
+											<span class="lang lang-en">Golf Cart Rental</span>
+										</div>
+										<div class="registry-card-cost">
+											<span class="lang lang-se active">1 000 sek · Holbox</span>
+											<span class="lang lang-en">1 000 sek · Holbox</span>
+										</div>
+										<p class="registry-card-desc">
+											<span class="lang lang-se active">Det ultimata sättet att utforska Holbox! Hyr en golfbil och kör runt öns sandiga vägar, dolda stränder och charmiga hörn i ert eget tempo.</span>
+											<span class="lang lang-en">The ultimate way to explore Holbox! Rent a golf cart and cruise the island's sandy roads, hidden beaches, and charming corners at your own pace.</span>
+										</p>
+										<button class="registry-card-btn" data-action="reserve">
+											<span class="lang lang-se active">Reservera</span>
+											<span class="lang lang-en">Reserve</span>
+										</button>
+									</div>
+								</div>
+
+								<!-- Card: Mangrove Kayak Sunset -->
+								<div class="registry-card" data-activity="Kajaktur i Mangroverna – Holbox" data-lockable="true">
+									<div class="registry-card-img">
+										<div class="registry-card-img-inner" style="background-image: url('images/UFqV-RqPm8w_Mangrove_Kayak.jpg'); background-color: #2a4a1a;"></div>
+									</div>
+									<div class="registry-card-body">
+										<div class="registry-card-title">
+											<span class="lang lang-se active">Kajaktur i Mangroverna vid Solnedgången</span>
+											<span class="lang lang-en">Mangrove Kayak Sunset Tour</span>
+										</div>
+										<div class="registry-card-cost">
+											<span class="lang lang-se active">900 sek · Holbox</span>
+											<span class="lang lang-en">900 sek · Holbox</span>
+										</div>
+										<p class="registry-card-desc">
+											<span class="lang lang-se active">Paddla kajak genom Holbox mangrover i solnedgångens gyllene ljus – naturens tystnad och hisnande färgprakt i en och samma upplevelse.</span>
+											<span class="lang lang-en">Paddle through Holbox's mangrove forests in the golden light of sunset – nature's silence and breathtaking colours all in one experience.</span>
+										</p>
+										<button class="registry-card-btn" data-action="reserve">
+											<span class="lang lang-se active">Reservera</span>
+											<span class="lang lang-en">Reserve</span>
+										</button>
+									</div>
+								</div>
+
+								<!-- Card: Cooking Class -->
+								<div class="registry-card" data-activity="Matlagningskurs – Tulum" data-lockable="true">
+									<div class="registry-card-img">
+										<div class="registry-card-img-inner" style="background-image: url('images/AE43FNpJVZQ_cooking_class.jpg'); background-color: #3a1a00;"></div>
+									</div>
+									<div class="registry-card-body">
+										<div class="registry-card-title">
+											<span class="lang lang-se active">Matlagningskurs</span>
+											<span class="lang lang-en">Cooking Class</span>
+										</div>
+										<div class="registry-card-cost">
+											<span class="lang lang-se active">1 400 sek · Tulum</span>
+											<span class="lang lang-en">1 400 sek · Tulum</span>
+										</div>
+										<p class="registry-card-desc">
+											<span class="lang lang-se active">Lär dig laga autentisk mexikansk mat från grunden i ett lokalt hem i Tulum – marknadsbesök, tortillatillverkning och alla smaker som följer med.</span>
+											<span class="lang lang-en">Learn to cook authentic Mexican food from scratch in a local home in Tulum – with a market visit, tortilla making, and all the wonderful flavours that come with it.</span>
+										</p>
+										<button class="registry-card-btn" data-action="reserve">
+											<span class="lang lang-se active">Reservera</span>
+											<span class="lang lang-en">Reserve</span>
+										</button>
+									</div>
+								</div>
+
+							</div><!-- /.registry-grid -->
+						</article>
+
 					</div>
 
 				<!-- Footer -->
@@ -587,5 +1167,333 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 					setView('maja');
 				});
 			</script>
+	
+	<!-- Registry Modal -->
+	<div class="registry-modal-overlay" id="registryModalOverlay" role="dialog" aria-modal="true" aria-labelledby="registryModalTitle">
+		<div class="registry-modal">
+			<div id="registryModalForm">
+				<h3 id="registryModalTitle"></h3>
+				<div class="registry-modal-cost" id="registryModalCost"></div>
+				<p class="registry-modal-note">
+					<span class="lang lang-se active">Du kommer att få ett e-postmeddelande med betalningsinformation närmare bröllopet.</span>
+					<span class="lang lang-en">You will receive an email with payment details closer to the wedding.</span>
+				</p>
+				<label for="registryEmail">
+					<span class="lang lang-se active">E-postadress</span>
+					<span class="lang lang-en">Email address</span>
+				</label>
+				<input type="email" id="registryEmail" name="email" autocomplete="email" required />
+				<div id="registrySponsorAmount" style="display:none;">
+					<label for="registryAmount">
+						<span class="lang lang-se active">Belopp (kr, valfritt)</span>
+						<span class="lang lang-en">Amount (SEK, optional)</span>
+					</label>
+					<input type="number" id="registryAmount" name="amount" min="1" placeholder="e.g. 500" />
+				</div>
+				<div class="registry-modal-actions">
+					<button class="registry-modal-confirm" id="registryConfirmBtn" type="button">
+						<span class="lang lang-se active">Bekräfta</span>
+						<span class="lang lang-en">Confirm</span>
+					</button>
+					<button class="registry-modal-cancel" id="registryCancelBtn" type="button">
+						<span class="lang lang-se active">Avbryt</span>
+						<span class="lang lang-en">Cancel</span>
+					</button>
+				</div>
+			</div>
+			<div id="registryModalSuccess" class="registry-modal-success" style="display:none;">
+				<p>
+					<span class="lang lang-se active">Tack så mycket! Din reservering är bekräftad. Vi ser fram emot att dela detta ögonblick med er!</span>
+					<span class="lang lang-en">Thank you so much! Your reservation is confirmed. We look forward to sharing this moment with you!</span>
+				</p>
+				<div class="registry-modal-actions" style="margin-top:1rem;">
+					<button class="registry-modal-cancel" id="registrySuccessCloseBtn" type="button">
+						<span class="lang lang-se active">Stäng</span>
+						<span class="lang lang-en">Close</span>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+		<script>
+			(function () {
+				'use strict';
+
+				var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwHB--78XHMRzg9s8Ncz0XvUyzvekyOaJmcQY6UOYge8Lk_93GJpqivsSTtVojWNwVR/exec';
+				var LS_KEY = 'registry_claimed';
+
+				// ---- Helpers ----
+
+				function getLocalClaimed() {
+					try {
+						return JSON.parse(localStorage.getItem(LS_KEY) || '[]');
+					} catch (e) {
+						return [];
+					}
+				}
+
+				function addLocalReserved(activityName) {
+					var reserved = getLocalReserved();
+					if (reserved.indexOf(activityName) === -1) {
+						reserved.push(activityName);
+						try { localStorage.setItem(LS_KEY, JSON.stringify(reserved)); } catch (e) {}
+					}
+				}
+
+				function markCardReserved(card) {
+					card.classList.add('is-reserved');
+					var btn = card.querySelector('.registry-card-btn');
+					if (btn) {
+						btn.disabled = true;
+						btn.classList.add('is-reserved');
+						var seSpan = btn.querySelector('.lang-se');
+						var enSpan = btn.querySelector('.lang-en');
+						if (seSpan) seSpan.textContent = 'Reserverad';
+						if (enSpan) enSpan.textContent = 'Reserved';
+					}
+				}
+
+				function applyReservedState(reservedList) {
+					var cards = document.querySelectorAll('.registry-card[data-lockable="true"]');
+					cards.forEach(function (card) {
+						var activity = card.getAttribute('data-activity');
+						if (reservedList.indexOf(activity) !== -1) {
+							markCardReserved(card);
+						}
+					});
+				}
+
+				// ---- Fetch reserved activities from Google Sheets ----
+
+				function loadRemoteReservations() {
+					var url = SCRIPT_URL + '?sheet=Registry';
+					fetch(url)
+						.then(function (res) { return res.json(); })
+						.then(function (data) {
+							var reserved = [];
+							if (Array.isArray(data)) {
+								reserved = data;
+							} else if (data && Array.isArray(data.reserved)) {
+								reserved = data.reserved;
+							}
+							// Sync localStorage with sheet — removes stale locks for deleted rows
+							try { localStorage.setItem(LS_KEY, JSON.stringify(reserved)); } catch (e) {}
+							applyReservedState(reserved);
+						})
+						.catch(function () {
+							// CORS or network failure: localStorage already applied
+						});
+				}
+
+				// ---- Modal elements ----
+
+				var overlay = document.getElementById('registryModalOverlay');
+				var modalTitle = document.getElementById('registryModalTitle');
+				var modalCost = document.getElementById('registryModalCost');
+				var emailInput = document.getElementById('registryEmail');
+				var amountWrapper = document.getElementById('registrySponsorAmount');
+				var amountInput = document.getElementById('registryAmount');
+				var confirmBtn = document.getElementById('registryConfirmBtn');
+				var cancelBtn = document.getElementById('registryCancelBtn');
+				var formDiv = document.getElementById('registryModalForm');
+				var successDiv = document.getElementById('registryModalSuccess');
+				var successCloseBtn = document.getElementById('registrySuccessCloseBtn');
+
+				var currentCard = null;
+
+				function getLang() {
+					return document.documentElement.lang === 'en' ? 'en' : 'se';
+				}
+
+				function openModal(card) {
+					currentCard = card;
+					var isSponsor = card.getAttribute('data-action-type') === 'sponsor';
+					var activity = card.getAttribute('data-activity');
+					var costEl = card.querySelector('.registry-card-cost');
+					var titleEl = card.querySelector('.registry-card-title');
+					var lang = getLang();
+
+					var titleSpan = titleEl.querySelector('.lang-' + lang) || titleEl.querySelector('.lang-se');
+					var costSpan = costEl.querySelector('.lang-' + lang) || costEl.querySelector('.lang-se');
+
+					modalTitle.textContent = titleSpan ? titleSpan.textContent : activity;
+					modalCost.textContent = costSpan ? costSpan.textContent : '';
+
+					amountWrapper.style.display = isSponsor ? 'block' : 'none';
+					emailInput.value = '';
+					if (amountInput) amountInput.value = '';
+
+					formDiv.style.display = 'block';
+					successDiv.style.display = 'none';
+
+					overlay.classList.add('active');
+					setTimeout(function () { emailInput.focus(); }, 50);
+				}
+
+				function closeModal() {
+					overlay.classList.remove('active');
+					currentCard = null;
+				}
+
+				function showSuccess() {
+					formDiv.style.display = 'none';
+					successDiv.style.display = 'block';
+				}
+
+				function submitReservation() {
+					var email = emailInput.value.trim();
+					if (!email || email.indexOf('@') === -1) {
+						emailInput.focus();
+						return;
+					}
+
+					var activity = currentCard.getAttribute('data-activity');
+					var isSponsor = currentCard.getAttribute('data-action-type') === 'sponsor';
+					var isLockable = currentCard.getAttribute('data-lockable') === 'true';
+
+					var costEl = currentCard.querySelector('.registry-card-cost');
+					var lang = getLang();
+					var costSpan = costEl.querySelector('.lang-' + lang) || costEl.querySelector('.lang-se');
+					var defaultAmount = costSpan ? costSpan.textContent : '';
+
+					var amount = (isSponsor && amountInput && amountInput.value)
+						? amountInput.value + ' kr'
+						: defaultAmount;
+
+					confirmBtn.disabled = true;
+
+					fetch(SCRIPT_URL, {
+						method: 'POST',
+						mode: 'no-cors',
+						body: new URLSearchParams({
+							sheet: 'Registry',
+							email: email,
+							activity: activity,
+							amount: amount
+						})
+					})
+					.then(function () {
+						if (isLockable) {
+							addLocalReserved(activity);
+							markCardReserved(currentCard);
+						}
+						showSuccess();
+					})
+					.catch(function () {
+						// With no-cors, errors here are unexpected network failures
+						if (isLockable) {
+							addLocalReserved(activity);
+							markCardReserved(currentCard);
+						}
+						showSuccess();
+					})
+					.finally(function () {
+						confirmBtn.disabled = false;
+					});
+				}
+
+				// ---- Event listeners ----
+
+				overlay.addEventListener('click', function (e) {
+					e.stopPropagation(); // prevent main.js body handler closing article
+					if (e.target === overlay) closeModal();
+				});
+
+				document.addEventListener('keydown', function (e) {
+					if (e.key === 'Escape' && overlay.classList.contains('active')) {
+						closeModal();
+					}
+				});
+
+				cancelBtn.addEventListener('click', closeModal);
+				successCloseBtn.addEventListener('click', closeModal);
+				confirmBtn.addEventListener('click', submitReservation);
+
+				[emailInput, amountInput].forEach(function (input) {
+					if (input) {
+						input.addEventListener('keydown', function (e) {
+							if (e.key === 'Enter') submitReservation();
+						});
+					}
+				});
+
+				// Card button click — attach directly to avoid main.js stopPropagation
+				function attachCardButtonListeners() {
+					document.querySelectorAll('.registry-card-btn').forEach(function (btn) {
+						btn.addEventListener('click', function (e) {
+							e.stopPropagation();
+							if (btn.disabled) return;
+							var card = btn.closest('.registry-card');
+							if (!card) return;
+							var action = btn.getAttribute('data-action');
+							card.setAttribute('data-action-type', action);
+							openModal(card);
+						});
+					});
+				}
+
+				// ---- Show more / less toggle ----
+
+				function attachDescToggles() {
+					document.querySelectorAll('.registry-card-desc').forEach(function (desc) {
+						// Skip if toggle already attached or text doesn't overflow
+						if (desc.dataset.toggleAttached) return;
+						if (desc.scrollHeight <= desc.clientHeight + 2) return;
+
+						desc.dataset.toggleAttached = '1';
+
+						// Insert toggle inline inside the <p> so it reads as "... visa mer"
+						var toggle = document.createElement('button');
+						toggle.className = 'registry-desc-toggle';
+						toggle.setAttribute('type', 'button');
+						toggle.innerHTML = '<span class="lang lang-se active">... visa mer</span><span class="lang lang-en">... show more</span>';
+
+						toggle.addEventListener('click', function (e) {
+							e.stopPropagation();
+							var expanded = desc.classList.toggle('is-expanded');
+							var seSpan = toggle.querySelector('.lang-se');
+							var enSpan = toggle.querySelector('.lang-en');
+							if (expanded) {
+								if (seSpan) seSpan.textContent = 'visa mindre';
+								if (enSpan) enSpan.textContent = 'show less';
+							} else {
+								if (seSpan) seSpan.textContent = '... visa mer';
+								if (enSpan) enSpan.textContent = '... show more';
+							}
+						});
+
+						// Insert after the <p>
+						desc.parentNode.insertBefore(toggle, desc.nextSibling);
+					});
+				}
+
+				// ---- Init ----
+
+				function init() {
+					applyReservedState(getLocalClaimed());
+					loadRemoteReservations();
+					attachCardButtonListeners();
+					// Attach toggles when registry article becomes visible (articles are
+					// hidden on load so scrollHeight measurements are unreliable at init)
+					window.addEventListener('hashchange', function () {
+						if (location.hash === '#registry') {
+							setTimeout(attachDescToggles, 400);
+						}
+					});
+					// Also handle direct page load with #registry hash
+					if (location.hash === '#registry') {
+						setTimeout(attachDescToggles, 800);
+					}
+				}
+
+				if (document.readyState === 'loading') {
+					document.addEventListener('DOMContentLoaded', init);
+				} else {
+					init();
+				}
+
+			}());
+		</script>
 	</body>
 </html>
