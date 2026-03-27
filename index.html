@@ -1178,6 +1178,11 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 					<span class="lang lang-se active">Du kommer att få ett e-postmeddelande med betalningsinformation närmare bröllopet.</span>
 					<span class="lang lang-en">You will receive an email with payment details closer to the wedding.</span>
 				</p>
+				<label for="registryName">
+					<span class="lang lang-se active">Namn</span>
+					<span class="lang lang-en">Name</span>
+				</label>
+				<input type="text" id="registryName" name="name" autocomplete="name" required />
 				<label for="registryEmail">
 					<span class="lang lang-se active">E-postadress</span>
 					<span class="lang lang-en">Email address</span>
@@ -1234,7 +1239,7 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 				}
 
 				function addLocalReserved(activityName) {
-					var reserved = getLocalReserved();
+					var reserved = getLocalClaimed();
 					if (reserved.indexOf(activityName) === -1) {
 						reserved.push(activityName);
 						try { localStorage.setItem(LS_KEY, JSON.stringify(reserved)); } catch (e) {}
@@ -1252,6 +1257,22 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 						if (seSpan) seSpan.textContent = 'Reserverad';
 						if (enSpan) enSpan.textContent = 'Reserved';
 					}
+				}
+
+				function unmarkAllCards() {
+					var cards = document.querySelectorAll('.registry-card[data-lockable="true"]');
+					cards.forEach(function (card) {
+						card.classList.remove('is-reserved');
+						var btn = card.querySelector('.registry-card-btn');
+						if (btn) {
+							btn.disabled = false;
+							btn.classList.remove('is-reserved');
+							var seSpan = btn.querySelector('.lang-se');
+							var enSpan = btn.querySelector('.lang-en');
+							if (seSpan) seSpan.textContent = 'Reservera';
+							if (enSpan) enSpan.textContent = 'Reserve';
+						}
+					});
 				}
 
 				function applyReservedState(reservedList) {
@@ -1279,6 +1300,7 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 							}
 							// Sync localStorage with sheet — removes stale locks for deleted rows
 							try { localStorage.setItem(LS_KEY, JSON.stringify(reserved)); } catch (e) {}
+							unmarkAllCards();
 							applyReservedState(reserved);
 						})
 						.catch(function () {
@@ -1291,6 +1313,7 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 				var overlay = document.getElementById('registryModalOverlay');
 				var modalTitle = document.getElementById('registryModalTitle');
 				var modalCost = document.getElementById('registryModalCost');
+				var nameInput = document.getElementById('registryName');
 				var emailInput = document.getElementById('registryEmail');
 				var amountWrapper = document.getElementById('registrySponsorAmount');
 				var amountInput = document.getElementById('registryAmount');
@@ -1321,14 +1344,15 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 					modalCost.textContent = costSpan ? costSpan.textContent : '';
 
 					amountWrapper.style.display = isSponsor ? 'block' : 'none';
-					emailInput.value = '';
+					nameInput.value = '';
+				emailInput.value = '';
 					if (amountInput) amountInput.value = '';
 
 					formDiv.style.display = 'block';
 					successDiv.style.display = 'none';
 
 					overlay.classList.add('active');
-					setTimeout(function () { emailInput.focus(); }, 50);
+					setTimeout(function () { nameInput.focus(); }, 50);
 				}
 
 				function closeModal() {
@@ -1342,6 +1366,11 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 				}
 
 				function submitReservation() {
+					var name = nameInput.value.trim();
+					if (!name) {
+						nameInput.focus();
+						return;
+					}
 					var email = emailInput.value.trim();
 					if (!email || email.indexOf('@') === -1) {
 						emailInput.focus();
@@ -1368,6 +1397,7 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 						mode: 'no-cors',
 						body: new URLSearchParams({
 							sheet: 'Registry',
+							guestName: name,
 							email: email,
 							activity: activity,
 							amount: amount
@@ -1410,7 +1440,7 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 				successCloseBtn.addEventListener('click', closeModal);
 				confirmBtn.addEventListener('click', submitReservation);
 
-				[emailInput, amountInput].forEach(function (input) {
+				[nameInput, emailInput, amountInput].forEach(function (input) {
 					if (input) {
 						input.addEventListener('keydown', function (e) {
 							if (e.key === 'Enter') submitReservation();
