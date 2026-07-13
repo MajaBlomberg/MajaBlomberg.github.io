@@ -1,0 +1,17 @@
+{
+  "name": "wedding-uploads-worker",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Cloudflare Worker: issues presigned R2 PUT URLs for wedding guest photo/video uploads",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "dependencies": {
+    "aws4fetch": "^1.0.20"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}

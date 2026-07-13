@@ -1,0 +1,39 @@
+name = "wedding-uploads-worker"
+main = "src/index.js"
+compatibility_date = "2024-09-02"
+
+[vars]
+# ── Access control ───────────────────────────────────────────────────────────
+# UPLOAD_KEY is deliberately a plain var (NOT a wrangler secret): it is
+# semi-public — the same value is embedded in the printed QR-code URL.
+# Set it to a random string before deploying, e.g. output of: openssl rand -hex 8
+# Do NOT also create a secret named UPLOAD_KEY (a var and secret with the same
+# name conflict, and the var silently wins).
+UPLOAD_KEY = "CHANGE-ME"
+
+# ── Upload window (ISO-8601 UTC, inclusive) ───────────────────────────────────
+UPLOAD_OPEN_UTC  = "2026-08-08T12:00:00Z"
+UPLOAD_CLOSE_UTC = "2026-08-09T06:00:00Z"
+
+# ── R2 coordinates ────────────────────────────────────────────────────────────
+ACCOUNT_ID  = "REPLACE_WITH_YOUR_CLOUDFLARE_ACCOUNT_ID"
+BUCKET_NAME = "wedding-uploads-2026"
+
+# ── CORS: extra allowed origins for local dev (comma-separated) ───────────────
+# e.g. "http://localhost:8000,http://localhost:3000"
+EXTRA_ALLOWED_ORIGINS = ""
+
+# ── R2 credentials (set as secrets, NOT plain vars) ───────────────────────────
+# npx wrangler secret put R2_ACCESS_KEY_ID
+# npx wrangler secret put R2_SECRET_ACCESS_KEY
+
+# ── Rate limiting ─────────────────────────────────────────────────────────────
+# namespace_id is an arbitrary positive integer — must be unique within your account.
+# period must be 10 or 60 (Cloudflare restriction). We use 60 s, max 10 requests/min per IP.
+[[ratelimits]]
+name = "UPLOAD_RATE_LIMITER"
+namespace_id = "1001"
+
+  [ratelimits.simple]
+    limit = 10
+    period = 60

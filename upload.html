@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <title>Dela bilder &amp; videos | Maja &amp; Mikael</title>
+  <link rel="icon" type="image/png" href="images/favicon.png" />
+  <!-- Same fonts as the main site -->
+  <link href="https://fonts.googleapis.com/css2?family=Parisienne&family=Lora:wght@400;600&family=Playfair+Display:wght@500;700&family=Cormorant+Garamond:wght@400;600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    /* ── Reset / base (mirrors main.css) ─────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      font-size: 16pt;
+    }
+    @media (max-width: 1680px) { html { font-size: 12pt; } }
+    @media (max-width: 736px)  { html { font-size: 11pt; } }
+    @media (max-width: 360px)  { html { font-size: 10pt; } }
+
+    body {
+      background: #1b1f22;
+      color: #ffffff;
+      font-family: 'Lora', serif;
+      font-weight: 300;
+      font-size: 1rem;
+      line-height: 1.65;
+      min-height: 100vh;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      border-bottom: dotted 1px rgba(255,255,255,0.5);
+      transition: border-bottom-color 0.2s;
+    }
+    a:hover { border-bottom-color: transparent; }
+
+    h1, h2, h3 {
+      font-family: 'Parisienne', cursive;
+      font-weight: normal;
+      letter-spacing: 0.2rem;
+      line-height: 1.5;
+      color: #ffffff;
+    }
+    h1 { font-size: 3rem; letter-spacing: 0.5rem; }
+    h2 {
+      font-family: 'Lora', serif;
+      font-size: 1.5rem;
+      letter-spacing: 0.1rem;
+      text-transform: uppercase;
+    }
+    @media (max-width: 736px) {
+      h1 { font-size: 1.75rem; }
+      h2 { font-size: 1.25rem; }
+    }
+
+    p {
+      margin: 0 0 1rem 0;
+      letter-spacing: 0.1rem;
+      line-height: 1.4;
+    }
+
+    /* ── Background overlay (matches main site's #bg feel) ───────────────── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(27,31,34,0.96) 0%, rgba(40,45,50,0.92) 100%);
+      z-index: -1;
+    }
+
+    /* ── Language switcher ────────────────────────────────────────────────── */
+    .lang-switcher {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      z-index: 100;
+      display: flex;
+      gap: 0.5rem;
+    }
+    .lang-switcher img {
+      width: 32px;
+      height: 21px;
+      object-fit: cover;
+      cursor: pointer;
+      border: 2px solid transparent;
+      border-radius: 4px;
+      transition: border 0.2s;
+    }
+    .lang-switcher img.active {
+      border-color: #ffffff;
+      box-shadow: 0 0 5px rgba(255,255,255,0.6);
+    }
+    .lang-switcher img:hover { border-color: #cccccc; }
+
+    /* Language visibility — matches index.html: .lang hidden, .lang.active shown */
+    .lang        { display: none; }
+    .lang.active { display: inline; }
+
+    /* ── Page wrapper ─────────────────────────────────────────────────────── */
+    #page {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 4rem;
+    }
+
+    /* ── Header / logo area ───────────────────────────────────────────────── */
+    .page-header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    .page-header .logo-img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      border-radius: 20%;
+      margin-bottom: 1rem;
+    }
+    .page-header h1 {
+      margin-bottom: 0.4rem;
+    }
+    .page-header .subtitle {
+      font-family: 'Lora', serif;
+      font-size: 0.95rem;
+      letter-spacing: 0.08rem;
+      color: rgba(255,255,255,0.75);
+      margin-bottom: 0;
+    }
+
+    /* ── Section heading (matches h2.major in main.css) ──────────────────── */
+    h2.major {
+      border-bottom: solid 1px #ffffff;
+      width: max-content;
+      max-width: 100%;
+      padding-bottom: 0.5rem;
+      margin: 1.5rem 0 0.5rem;
+    }
+
+    /* ── No-key message ───────────────────────────────────────────────────── */
+    #no-key-msg {
+      text-align: center;
+      padding: 3rem 1rem;
+    }
+    #no-key-msg .icon-big {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: rgba(255,255,255,0.5);
+    }
+
+    /* ── Upload drop zone ─────────────────────────────────────────────────── */
+    #drop-zone {
+      border: 2px dashed rgba(255,255,255,0.3);
+      border-radius: 16px;
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      margin: 1.5rem 0;
+      position: relative;
+    }
+    #drop-zone:hover,
+    #drop-zone.dragover {
+      border-color: rgba(255,255,255,0.7);
+      background: rgba(255,255,255,0.05);
+    }
+    #drop-zone .drop-icon {
+      font-size: 2.5rem;
+      margin-bottom: 0.75rem;
+      color: rgba(255,255,255,0.6);
+    }
+    #drop-zone .drop-label {
+      font-family: 'Lora', serif;
+      font-size: 1rem;
+      letter-spacing: 0.08rem;
+      color: rgba(255,255,255,0.9);
+      margin: 0;
+    }
+    #drop-zone .drop-hint {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.5);
+      margin: 0.5rem 0 0;
+      letter-spacing: 0.04rem;
+    }
+    /* Hidden actual input sits over the drop zone for tap/click */
+    #file-input {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* ── File queue ───────────────────────────────────────────────────────── */
+    #file-list {
+      margin-top: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+    }
+
+    .file-item {
+      background: rgba(255,255,255,0.06);
+      border-radius: 10px;
+      padding: 0.8rem 1rem;
+    }
+    .file-item-header {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.4rem;
+    }
+    .file-item-icon {
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.6);
+      flex-shrink: 0;
+    }
+    .file-item-name {
+      flex: 1;
+      font-size: 0.85rem;
+      letter-spacing: 0.04rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: rgba(255,255,255,0.9);
+    }
+    .file-item-size {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.45);
+      flex-shrink: 0;
+    }
+
+    /* Progress bar */
+    .progress-bar-wrap {
+      height: 4px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-bottom: 0.35rem;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: rgba(255,255,255,0.7);
+      border-radius: 2px;
+      transition: width 0.15s;
+    }
+
+    .file-item-status {
+      font-size: 0.78rem;
+      letter-spacing: 0.04rem;
+      color: rgba(255,255,255,0.55);
+    }
+    .file-item-status.status-done    { color: #a8d5a2; }
+    .file-item-status.status-error   { color: #f4a9a8; }
+    .file-item-status.status-warning { color: #ffd580; }
+
+    .btn-retry {
+      margin-top: 0.4rem;
+      padding: 0.3rem 0.9rem;
+      font-size: 0.78rem;
+      letter-spacing: 0.06rem;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 5px;
+      color: #ffffff;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-retry:hover { background: rgba(255,255,255,0.15); }
+
+    /* ── Success state ────────────────────────────────────────────────────── */
+    #success-state {
+      display: none;
+      text-align: center;
+      padding: 2.5rem 0;
+    }
+    #success-state .success-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: #a8d5a2;
+    }
+    #success-state h2 {
+      margin-bottom: 0.6rem;
+    }
+    #success-state p {
+      color: rgba(255,255,255,0.75);
+      margin-bottom: 1.5rem;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      padding: 0.85rem 2.2rem;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.5);
+      border-radius: 8px;
+      font-family: 'Lora', serif;
+      font-size: 0.95rem;
+      letter-spacing: 0.1rem;
+      color: #ffffff;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn-primary:hover,
+    .btn-primary:active {
+      background: rgba(255,255,255,0.22);
+      border-color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Language switcher (same pattern as index.html) -->
+  <div class="lang-switcher">
+    <img src="images/flag_se.png" alt="Svenska" id="flag-se" class="active" />
+    <img src="images/flag_uk.png" alt="English" id="flag-en" />
+  </div>
+
+  <div id="page">
+
+    <!-- Header -->
+    <div class="page-header">
+      <img src="images/engagement.png" alt="Maja &amp; Mikael" class="logo-img" />
+      <h1>Maja &amp; Mikael</h1>
+      <p class="subtitle">
+        <span class="lang lang-se active">8 Augusti 2026 &middot; Ekolsunds Slott</span>
+        <span class="lang lang-en">August 8th, 2026 &middot; Ekolsunds Castle</span>
+      </p>
+    </div>
+
+    <!-- Heading -->
+    <h2 class="major">
+      <span class="lang lang-se active">Dela bilder &amp; videos</span>
+      <span class="lang lang-en">Share your photos &amp; videos</span>
+    </h2>
+    <p>
+      <span class="lang lang-se active">
+        F&aring;ngade du n&aring;got fint under dagen? Ladda upp dina bilder och videos direkt &mdash;
+        vi samlar allt p&aring; ett st&auml;lle.
+      </span>
+      <span class="lang lang-en">
+        Did you capture something beautiful today? Upload your photos and videos &mdash;
+        we&rsquo;ll gather everything in one place.
+      </span>
+    </p>
+
+    <!-- No-key fallback (shown when ?k= is missing) -->
+    <div id="no-key-msg" style="display:none;">
+      <div class="icon-big"><i class="fa-solid fa-qrcode"></i></div>
+      <h2>
+        <span class="lang lang-se active">Skanna QR-koden</span>
+        <span class="lang lang-en">Scan the QR code</span>
+      </h2>
+      <p>
+        <span class="lang lang-se active">
+          Anv&auml;nd QR-koden p&aring; bordet f&ouml;r att &ouml;ppna uppladdningssidan.
+        </span>
+        <span class="lang lang-en">
+          Use the QR code on the table to open the upload page.
+        </span>
+      </p>
+    </div>
+
+    <!-- Upload UI (hidden when ?k= is missing) -->
+    <div id="upload-ui">
+
+      <!-- Drop zone / file picker -->
+      <div id="drop-zone">
+        <!--
+          accept="image/*,video/*,.heic,.heif":
+          - image/* lets iOS convert HEIC from photo library to JPEG automatically
+          - .heic / .heif allows direct HEIC file upload (stored as-is)
+        -->
+        <input
+          type="file"
+          id="file-input"
+          multiple
+          accept="image/*,video/*,.heic,.heif"
+        />
+        <div class="drop-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+        <p class="drop-label">
+          <span class="lang lang-se active">Tryck f&ouml;r att v&auml;lja bilder eller videos</span>
+          <span class="lang lang-en">Tap to choose photos or videos</span>
+        </p>
+        <p class="drop-hint">
+          <span class="lang lang-se active">JPEG &middot; PNG &middot; HEIC &middot; WebP &middot; GIF &middot; MP4 &middot; MOV &middot; max 500 MB per fil</span>
+          <span class="lang lang-en">JPEG &middot; PNG &middot; HEIC &middot; WebP &middot; GIF &middot; MP4 &middot; MOV &middot; max 500 MB per file</span>
+        </p>
+      </div>
+
+      <!-- Per-file progress list -->
+      <div id="file-list"></div>
+
+      <!-- Success state (replaces file list when all uploads complete) -->
+      <div id="success-state">
+        <div class="success-icon"><i class="fa-solid fa-heart"></i></div>
+        <h2>
+          <span class="lang lang-se active">Tack s&aring; mycket!</span>
+          <span class="lang lang-en">Thank you so much!</span>
+        </h2>
+        <p>
+          <span class="lang lang-se active">
+            Dina bilder och videos &auml;r uppladdade. Vi &auml;lskar dig!
+          </span>
+          <span class="lang lang-en">
+            Your photos and videos are uploaded. We love you!
+          </span>
+        </p>
+        <button class="btn-primary" id="upload-more-btn">
+          <span class="lang lang-se active">Ladda upp fler</span>
+          <span class="lang lang-en">Upload more</span>
+        </button>
+      </div>
+
+    </div><!-- /#upload-ui -->
+
+  </div><!-- /#page -->
+
+  <script>
+    // ── Config ────────────────────────────────────────────────────────────────
+    // Replace WORKER_URL after running `npx wrangler deploy`
+    var WORKER_URL       = "https://REPLACE-AFTER-DEPLOY.workers.dev";
+    var MAX_CONCURRENT   = 3;
+    var MAX_SIZE_BYTES   = 500 * 1024 * 1024;  // 500 MB hard limit (worker enforces too)
+    var WARN_SIZE_BYTES  = 200 * 1024 * 1024;  // 200 MB — allowed, but warn it may be slow
+    var XHR_TIMEOUT_MS   = 30 * 60 * 1000;            // 30 min per upload
+
+    // ── Language toggle ───────────────────────────────────────────────────────
+    var currentLang = 'se';
+
+    function setLanguage(lang) {
+      currentLang = lang;
+      document.documentElement.lang = lang === 'se' ? 'sv' : 'en';
+
+      document.querySelectorAll('.lang-switcher img').forEach(function(img) {
+        img.classList.toggle('active', img.id === 'flag-' + lang);
+      });
+      document.querySelectorAll('.lang').forEach(function(el) {
+        el.classList.remove('active');
+      });
+      document.querySelectorAll('.lang-' + lang).forEach(function(el) {
+        el.classList.add('active');
+      });
+    }
+
+    setLanguage('se');
+
+    document.getElementById('flag-se').addEventListener('click', function() { setLanguage('se'); });
+    document.getElementById('flag-en').addEventListener('click', function() { setLanguage('en'); });
+
+    // ── Key from URL ──────────────────────────────────────────────────────────
+    var uploadKey = new URLSearchParams(location.search).get('k');
+
+    if (!uploadKey) {
+      document.getElementById('no-key-msg').style.display = 'block';
+      document.getElementById('upload-ui').style.display = 'none';
+    }
+
+    // ── Helpers ───────────────────────────────────────────────────────────────
+    function fmtSize(bytes) {
+      if (bytes >= 1073741824) return (bytes / 1073741824).toFixed(1) + ' GB';
+      if (bytes >= 1048576)    return (bytes / 1048576).toFixed(1) + ' MB';
+      if (bytes >= 1024)       return (bytes / 1024).toFixed(0) + ' KB';
+      return bytes + ' B';
+    }
+
+    function fileIconClass(type) {
+      if (type.startsWith('video/')) return 'fa-solid fa-film';
+      if (type.startsWith('image/')) return 'fa-solid fa-image';
+      return 'fa-solid fa-file';
+    }
+
+    // Resolve MIME type — handle HEIC/HEIF when browser reports octet-stream
+    function resolveContentType(file) {
+      if (file.type && file.type !== 'application/octet-stream') return file.type;
+      var ext = file.name.split('.').pop().toLowerCase();
+      var map = {
+        heic: 'image/heic', heif: 'image/heif',
+        jpg: 'image/jpeg', jpeg: 'image/jpeg',
+        png: 'image/png', webp: 'image/webp', gif: 'image/gif',
+        mp4: 'video/mp4', mov: 'video/quicktime', m4v: 'video/x-m4v'
+      };
+      return map[ext] || 'application/octet-stream';
+    }
+
+    // ── Build file-item DOM using safe DOM methods only (no innerHTML for user data) ──
+    function createFileItem(file) {
+      var ct = resolveContentType(file);
+
+      var item = document.createElement('div');
+      item.className = 'file-item';
+
+      // Header row
+      var header = document.createElement('div');
+      header.className = 'file-item-header';
+
+      var iconSpan = document.createElement('span');
+      iconSpan.className = 'file-item-icon';
+      var iconI = document.createElement('i');
+      iconI.className = fileIconClass(ct);   // only hardcoded strings from fileIconClass()
+      iconSpan.appendChild(iconI);
+
+      var nameSpan = document.createElement('span');
+      nameSpan.className = 'file-item-name';
+      nameSpan.textContent = file.name;      // textContent — safe against XSS
+
+      var sizeSpan = document.createElement('span');
+      sizeSpan.className = 'file-item-size';
+      sizeSpan.textContent = fmtSize(file.size); // textContent — numeric output only
+
+      header.appendChild(iconSpan);
+      header.appendChild(nameSpan);
+      header.appendChild(sizeSpan);
+
+      // Progress bar
+      var progressWrap = document.createElement('div');
+      progressWrap.className = 'progress-bar-wrap';
+      var progressFill = document.createElement('div');
+      progressFill.className = 'progress-bar-fill';
+      progressWrap.appendChild(progressFill);
+
+      // Status text
+      var statusEl = document.createElement('div');
+      statusEl.className = 'file-item-status';
+      var seSpan = document.createElement('span');
+      seSpan.className = 'lang lang-se';
+      seSpan.textContent = 'Väntar…'; // "Väntar…"
+      var enSpan = document.createElement('span');
+      enSpan.className = 'lang lang-en';
+      enSpan.textContent = 'Waiting…';
+      statusEl.appendChild(seSpan);
+      statusEl.appendChild(enSpan);
+
+      item.appendChild(header);
+      item.appendChild(progressWrap);
+      item.appendChild(statusEl);
+
+      // Apply current language to the new element
+      item.querySelectorAll('.lang').forEach(function(el) { el.classList.remove('active'); });
+      item.querySelectorAll('.lang-' + currentLang).forEach(function(el) { el.classList.add('active'); });
+
+      return item;
+    }
+
+    function setStatus(itemEl, text, cls) {
+      var s = itemEl.querySelector('.file-item-status');
+      s.className = 'file-item-status' + (cls ? ' ' + cls : '');
+      s.textContent = text; // always textContent — never innerHTML
+    }
+
+    function setProgress(itemEl, pct) {
+      itemEl.querySelector('.progress-bar-fill').style.width = Math.min(100, pct) + '%';
+    }
+
+    // ── Upload queue state ────────────────────────────────────────────────────
+    var queue   = [];
+    var running = 0;
+
+    // ── Upload a single file ──────────────────────────────────────────────────
+    function uploadFile(file, itemEl) {
+      running++;
+      var isSe = currentLang === 'se';
+      var contentType = resolveContentType(file);
+
+      // Client-side size check (mirrors worker)
+      if (file.size > MAX_SIZE_BYTES) {
+        setStatus(itemEl,
+          isSe ? 'Filen är för stor (max 500 MB). Långa videos: dela gärna hemifrån via en länk.'
+               : 'File too large (max 500 MB). Long videos: please share from home via a link.',
+          'status-error');
+        running--;
+        drainQueue();
+        return;
+      }
+
+      if (file.size > WARN_SIZE_BYTES) {
+        setStatus(itemEl,
+          isSe ? 'Stor fil (>200 MB) — kan ta en stund på festens WiFi…'
+               : 'Large file (>200 MB) — may take a while on the venue WiFi…',
+          'status-warning');
+      } else {
+        setStatus(itemEl, isSe ? 'Förbereder…' : 'Preparing…');
+      }
+
+      // Step 1: request presigned URL from Worker
+      fetch(WORKER_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          key: uploadKey,
+          filename: file.name,
+          contentType: contentType,
+          fileSize: file.size
+        })
+      })
+      .then(function(res) {
+        return res.json().then(function(data) {
+          if (!res.ok) throw new Error(data.error || ('Worker error ' + res.status));
+          return data;
+        });
+      })
+      .then(function(data) {
+        var uploadUrl = data.uploadUrl;
+        setStatus(itemEl, isSe ? 'Laddar upp…' : 'Uploading…');
+
+        // Step 2: PUT bytes directly to R2 via XHR (for progress events).
+        // Do NOT set Content-Type on the PUT request — it must remain unsigned
+        // to match the presigned URL (Content-Type is intentionally excluded
+        // from the signed headers to avoid SignatureDoesNotMatch from R2).
+        var xhr = new XMLHttpRequest();
+        xhr.timeout = XHR_TIMEOUT_MS;
+
+        xhr.upload.addEventListener('progress', function(e) {
+          if (e.lengthComputable) setProgress(itemEl, (e.loaded / e.total) * 100);
+        });
+
+        xhr.addEventListener('load', function() {
+          if (xhr.status >= 200 && xhr.status < 300) {
+            setProgress(itemEl, 100);
+            setStatus(itemEl, isSe ? 'Klar!' : 'Done!', 'status-done');
+          } else {
+            setStatus(itemEl,
+              (isSe ? 'Uppladdningsfel: ' : 'Upload error: ') + xhr.status,
+              'status-error');
+            addRetryButton(itemEl, file);
+          }
+          running--;
+          drainQueue();
+          checkAllDone();
+        });
+
+        xhr.addEventListener('error', function() {
+          setStatus(itemEl,
+            isSe ? 'Nätverksfel. Försök igen.' : 'Network error. Please retry.',
+            'status-error');
+          addRetryButton(itemEl, file);
+          running--;
+          drainQueue();
+        });
+
+        xhr.addEventListener('timeout', function() {
+          setStatus(itemEl,
+            isSe ? 'Tidsgräns överskreds. Försök igen.'
+                 : 'Upload timed out. Please retry.',
+            'status-error');
+          addRetryButton(itemEl, file);
+          running--;
+          drainQueue();
+        });
+
+        xhr.open('PUT', uploadUrl);
+        // Intentionally not calling xhr.setRequestHeader('Content-Type', ...)
+        // — see note above.
+        xhr.send(file);
+      })
+      .catch(function(err) {
+        setStatus(itemEl,
+          (isSe ? 'Fel: ' : 'Error: ') + err.message,
+          'status-error');
+        addRetryButton(itemEl, file);
+        running--;
+        drainQueue();
+      });
+    }
+
+    function addRetryButton(itemEl, file) {
+      var existing = itemEl.querySelector('.btn-retry');
+      if (existing) existing.remove();
+
+      var btn = document.createElement('button');
+      btn.className = 'btn-retry';
+      btn.textContent = currentLang === 'se' ? 'Försök igen' : 'Retry';
+      btn.addEventListener('click', function() {
+        btn.remove();
+        setProgress(itemEl, 0);
+        setStatus(itemEl, currentLang === 'se' ? 'Väntar…' : 'Waiting…');
+        queue.unshift({ file: file, itemEl: itemEl });
+        drainQueue();
+      });
+      itemEl.appendChild(btn);
+    }
+
+    function drainQueue() {
+      while (running < MAX_CONCURRENT && queue.length > 0) {
+        var item = queue.shift();
+        uploadFile(item.file, item.itemEl);
+      }
+    }
+
+    function checkAllDone() {
+      var items = document.querySelectorAll('#file-list .file-item');
+      if (items.length === 0) return;
+      var allDone = true;
+      items.forEach(function(el) {
+        var s = el.querySelector('.file-item-status');
+        if (!s || !s.classList.contains('status-done')) allDone = false;
+      });
+      if (allDone && queue.length === 0 && running === 0) {
+        document.getElementById('file-list').style.display = 'none';
+        document.getElementById('success-state').style.display = 'block';
+        // Re-apply language to success state spans
+        setLanguage(currentLang);
+      }
+    }
+
+    // ── File input handler ────────────────────────────────────────────────────
+    function handleFiles(files) {
+      if (!uploadKey) return;
+
+      document.getElementById('success-state').style.display = 'none';
+      document.getElementById('file-list').style.display = '';
+
+      Array.from(files).forEach(function(file) {
+        var itemEl = createFileItem(file);
+        document.getElementById('file-list').appendChild(itemEl);
+        queue.push({ file: file, itemEl: itemEl });
+      });
+
+      drainQueue();
+    }
+
+    document.getElementById('file-input').addEventListener('change', function() {
+      if (this.files.length) {
+        handleFiles(this.files);
+        this.value = ''; // reset so same file can be re-selected on retry
+      }
+    });
+
+    // ── Drag & drop (desktop) ─────────────────────────────────────────────────
+    var dropZone = document.getElementById('drop-zone');
+
+    dropZone.addEventListener('dragover', function(e) {
+      e.preventDefault();
+      dropZone.classList.add('dragover');
+    });
+    dropZone.addEventListener('dragleave', function() {
+      dropZone.classList.remove('dragover');
+    });
+    dropZone.addEventListener('drop', function(e) {
+      e.preventDefault();
+      dropZone.classList.remove('dragover');
+      if (e.dataTransfer.files.length) handleFiles(e.dataTransfer.files);
+    });
+
+    // ── Upload-more button ────────────────────────────────────────────────────
+    document.getElementById('upload-more-btn').addEventListener('click', function() {
+      document.getElementById('file-list').textContent = ''; // safe clear
+      document.getElementById('file-list').style.display = '';
+      document.getElementById('success-state').style.display = 'none';
+      queue = [];
+      running = 0;
+    });
+  </script>
+</body>
+</html>
