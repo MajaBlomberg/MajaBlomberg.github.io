@@ -18,6 +18,11 @@ UPLOAD_CLOSE_UTC = "2026-08-23T23:59:59Z"
 ACCOUNT_ID  = "43699b86db94d7bd719f3d6fa03d62ec"
 BUCKET_NAME = "wedding-uploads-2026"
 
+# ── Total storage cap ─────────────────────────────────────────────────────────
+# Presigns are refused once the bucket holds this many GB. Concurrent in-flight
+# uploads can overshoot slightly (by at most a few files), never by much.
+MAX_TOTAL_GB = "20"
+
 # ── CORS: extra allowed origins for local dev (comma-separated) ───────────────
 # e.g. "http://localhost:8000,http://localhost:3000"
 EXTRA_ALLOWED_ORIGINS = ""
@@ -25,6 +30,11 @@ EXTRA_ALLOWED_ORIGINS = ""
 # ── R2 credentials (set as secrets, NOT plain vars) ───────────────────────────
 # npx wrangler secret put R2_ACCESS_KEY_ID
 # npx wrangler secret put R2_SECRET_ACCESS_KEY
+
+# ── R2 bucket binding (used to enforce MAX_TOTAL_GB) ──────────────────────────
+[[r2_buckets]]
+binding = "BUCKET"
+bucket_name = "wedding-uploads-2026"
 
 # ── Rate limiting ─────────────────────────────────────────────────────────────
 # namespace_id is an arbitrary positive integer — must be unique within your account.

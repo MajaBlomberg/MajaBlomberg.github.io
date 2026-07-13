@@ -198,11 +198,36 @@ export default {
       );
     }
 
-    // ── 6. Generate object key ─────────────────────────────────────────────────
+    // ── 6. Total storage cap ───────────────────────────────────────────────────
+    // Sum the bucket's current size via the binding; refuse the presign if this
+    // file would push it past MAX_TOTAL_GB. Runs after the rate limiter so an
+    // abuser can't make us list the bucket more than 10×/min per IP.
+    const maxTotalBytes =
+      Number(env.MAX_TOTAL_GB || "20") * 1024 * 1024 * 1024;
+    let usedBytes = 0;
+    let cursor;
+    do {
+      const page = await env.BUCKET.list({ cursor, limit: 1000 });
+      for (const obj of page.objects) usedBytes += obj.size;
+      cursor = page.truncated ? page.cursor : undefined;
+    } while (cursor);
+
+    if (usedBytes + size > maxTotalBytes) {
+      return jsonResponse(
+        {
+          error:
+            "Lagringen är full — tack för alla bilder! / Storage is full — thank you for all the photos!",
+        },
+        507,
+        cors
+      );
+    }
+
+    // ── 7. Generate object key ─────────────────────────────────────────────────
     const safeFilename = sanitizeFilename(filename || "upload");
     const objectKey = `uploads/${Date.now()}-${crypto.randomUUID()}-${safeFilename}`;
 
-    // ── 7. Presign the PUT URL via aws4fetch ───────────────────────────────────
+    // ── 8. Presign the PUT URL via aws4fetch ───────────────────────────────────
     //
     // CRITICAL: do NOT include Content-Type in the signed headers.
     // R2 requires the browser to send Content-Type unsigned on the PUT.

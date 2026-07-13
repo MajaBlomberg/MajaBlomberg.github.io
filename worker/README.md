@@ -77,6 +77,7 @@ Open `wrangler.toml` and replace the placeholders:
 | `ACCOUNT_ID` | Your Cloudflare Account ID (dash.cloudflare.com → top-right or Workers & Pages → Overview) |
 | `UPLOAD_OPEN_UTC` | When uploads open, in UTC, e.g. `"2026-08-08T06:00:00Z"` |
 | `UPLOAD_CLOSE_UTC` | End of upload window, e.g. `"2026-08-23T23:59:59Z"` — keep it open a couple of weeks so guests can upload videos from home |
+| `MAX_TOTAL_GB` | Hard cap on total bucket volume (default `"20"`). Once reached, new uploads are refused. Concurrent in-flight uploads can overshoot by a few files at most. Raise it and redeploy if the wedding fills it up. |
 | `EXTRA_ALLOWED_ORIGINS` | `"http://localhost:8000"` for local dev, empty string for production |
 
 ### 9. Deploy
