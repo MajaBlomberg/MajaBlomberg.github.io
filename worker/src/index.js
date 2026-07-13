@@ -49,10 +49,11 @@ function sanitizeFilename(name) {
  * or omits the header entirely for unlisted ones (browser will block — correct).
  */
 function corsHeaders(origin, env) {
-  const primaryOrigin = "https://mikaelmajabrollop2026.se";
+  // GitHub Pages 301s the apex to www — guests land on www, so allow both.
+  const primaryOrigin = "https://www.mikaelmajabrollop2026.se";
 
   // Build the set of allowed origins at runtime
-  const allowed = new Set([primaryOrigin]);
+  const allowed = new Set([primaryOrigin, "https://mikaelmajabrollop2026.se"]);
   const extra = (env.EXTRA_ALLOWED_ORIGINS || "")
     .split(",")
     .map((s) => s.trim())
