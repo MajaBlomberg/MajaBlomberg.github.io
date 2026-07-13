@@ -62,6 +62,10 @@ npx wrangler secret put R2_ACCESS_KEY_ID
 
 npx wrangler secret put R2_SECRET_ACCESS_KEY
 # paste the Secret Access Key from step 3
+
+npx wrangler secret put UPLOAD_KEY
+# a random string, e.g. output of: openssl rand -hex 8
+# This repo is public, so the key lives only here and in the QR URL (?k=<value>)
 ```
 
 ### 8. Edit wrangler.toml vars
@@ -71,9 +75,8 @@ Open `wrangler.toml` and replace the placeholders:
 | Var | What to put |
 |-----|-------------|
 | `ACCOUNT_ID` | Your Cloudflare Account ID (dash.cloudflare.com → top-right or Workers & Pages → Overview) |
-| `UPLOAD_KEY` | A random string, e.g. output of `openssl rand -hex 8`. This goes in the QR URL as `?k=<value>`. It is deliberately a plain var, not a secret — it's semi-public (printed on the QR cards). Do NOT also create a secret with this name. |
-| `UPLOAD_OPEN_UTC` | Wedding start in UTC, e.g. `"2026-08-08T12:00:00Z"` |
-| `UPLOAD_CLOSE_UTC` | End of upload window, e.g. `"2026-08-09T06:00:00Z"` |
+| `UPLOAD_OPEN_UTC` | When uploads open, in UTC, e.g. `"2026-08-08T06:00:00Z"` |
+| `UPLOAD_CLOSE_UTC` | End of upload window, e.g. `"2026-08-23T23:59:59Z"` — keep it open a couple of weeks so guests can upload videos from home |
 | `EXTRA_ALLOWED_ORIGINS` | `"http://localhost:8000"` for local dev, empty string for production |
 
 ### 9. Deploy
@@ -154,8 +157,9 @@ rclone purge r2wedding:wedding-uploads-2026
 # Delete the R2 API token in the Cloudflare dashboard
 # R2 → Manage R2 API tokens → revoke the token from step 3
 
-# Make the QR codes stop working: change UPLOAD_KEY in wrangler.toml
-# and redeploy — or simply delete the Worker entirely:
+# Make the QR codes stop working: rotate the secret
+npx wrangler secret put UPLOAD_KEY   # enter any new random string
+# — or simply delete the Worker entirely:
 npx wrangler delete
 ```
 

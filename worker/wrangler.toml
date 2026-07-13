@@ -4,19 +4,18 @@ compatibility_date = "2024-09-02"
 
 [vars]
 # ── Access control ───────────────────────────────────────────────────────────
-# UPLOAD_KEY is deliberately a plain var (NOT a wrangler secret): it is
-# semi-public — the same value is embedded in the printed QR-code URL.
-# Set it to a random string before deploying, e.g. output of: openssl rand -hex 8
-# Do NOT also create a secret named UPLOAD_KEY (a var and secret with the same
-# name conflict, and the var silently wins).
-UPLOAD_KEY = "CHANGE-ME"
+# UPLOAD_KEY is a Wrangler secret (this repo is public, so it must not be
+# committed): npx wrangler secret put UPLOAD_KEY
+# The same value goes in the QR-code URL as ?k=<value>.
 
 # ── Upload window (ISO-8601 UTC, inclusive) ───────────────────────────────────
-UPLOAD_OPEN_UTC  = "2026-08-08T12:00:00Z"
-UPLOAD_CLOSE_UTC = "2026-08-09T06:00:00Z"
+# Open from now (allows pre-wedding testing; the ?k= key is the real gate)
+# through ~2 weeks after the wedding so guests can upload videos from home.
+UPLOAD_OPEN_UTC  = "2026-07-13T00:00:00Z"
+UPLOAD_CLOSE_UTC = "2026-08-23T23:59:59Z"
 
 # ── R2 coordinates ────────────────────────────────────────────────────────────
-ACCOUNT_ID  = "REPLACE_WITH_YOUR_CLOUDFLARE_ACCOUNT_ID"
+ACCOUNT_ID  = "43699b86db94d7bd719f3d6fa03d62ec"
 BUCKET_NAME = "wedding-uploads-2026"
 
 # ── CORS: extra allowed origins for local dev (comma-separated) ───────────────

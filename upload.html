@@ -422,8 +422,7 @@
 
   <script>
     // ── Config ────────────────────────────────────────────────────────────────
-    // Replace WORKER_URL after running `npx wrangler deploy`
-    var WORKER_URL       = "https://REPLACE-AFTER-DEPLOY.workers.dev";
+    var WORKER_URL       = "https://wedding-uploads-worker.mikaelmaja.workers.dev";
     var MAX_CONCURRENT   = 3;
     var MAX_SIZE_BYTES   = 500 * 1024 * 1024;  // 500 MB hard limit (worker enforces too)
     var WARN_SIZE_BYTES  = 200 * 1024 * 1024;  // 200 MB — allowed, but warn it may be slow
