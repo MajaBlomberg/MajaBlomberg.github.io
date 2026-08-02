@@ -424,7 +424,97 @@ input, select, textarea {
 
 
 
-/* Timeline */
+/* Schedule */
+
+	.schedule {
+		max-width: 520px;
+		margin: 2rem auto 2.5rem auto;
+		text-align: left;
+	}
+
+	.schedule-row {
+		display: grid;
+		grid-template-columns: 5.4rem 1fr;
+		align-items: baseline;
+		padding: 0.75rem 0;
+	}
+
+	.schedule-time {
+		font-family: 'Lora', serif;
+		font-size: 0.9rem;
+		letter-spacing: 0.12em;
+		color: #ffffff;
+		text-align: right;
+		white-space: nowrap;
+		padding-right: 1.25rem;
+	}
+
+	.schedule-event {
+		position: relative;
+		font-family: 'Lora', serif;
+		font-size: 1rem;
+		line-height: 1.5;
+		color: #ffffff;
+		border-left: 1px solid rgba(92, 99, 78, 0.35);
+		padding: 0 0 0 1.5rem;
+	}
+
+	/* Extend the hairline through the row gutters so it reads as one line */
+	.schedule-event::after {
+		content: '';
+		position: absolute;
+		left: -1px;
+		top: -0.75rem;
+		bottom: -0.75rem;
+		width: 1px;
+		background: rgba(92, 99, 78, 0.35);
+	}
+
+	.schedule-row:first-child .schedule-event::after {
+		top: 0;
+	}
+
+	.schedule-row:last-child .schedule-event::after {
+		bottom: 0;
+	}
+
+	.schedule-event::before {
+		content: '';
+		position: absolute;
+		left: -4px;
+		top: 0.6em;
+		width: 7px;
+		height: 7px;
+		border-radius: 50%;
+		background: #5c634e;
+		z-index: 1;
+	}
+
+	@media screen and (max-width: 480px) {
+		.schedule-row {
+			grid-template-columns: 4.4rem 1fr;
+			padding: 0.65rem 0;
+		}
+
+		.schedule-time {
+			font-size: 0.8rem;
+			letter-spacing: 0.1em;
+			padding-right: 0.9rem;
+		}
+
+		.schedule-event {
+			font-size: 0.9rem;
+			padding-left: 1.1rem;
+		}
+
+		.schedule-event::after {
+			top: -0.65rem;
+			bottom: -0.65rem;
+		}
+	}
+
+
+/* Timeline (legacy, unused) */
 
 	.timeline {
 		position: relative;
