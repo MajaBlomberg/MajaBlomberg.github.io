@@ -2066,7 +2066,17 @@ input, select, textarea {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+/* Still available — a brighter outline so open cards read as the live ones.
+   Reserved cards keep the dim default border below. */
+.registry-card:not(.is-reserved) {
+  border-color: rgba(255,255,255,0.34);
+}
+
+.registry-card:not(.is-reserved):hover {
+  border-color: rgba(255,255,255,0.5);
 }
 
 .registry-card:hover {
@@ -2490,4 +2500,146 @@ input, select, textarea {
 .password-input-row input.shake {
 	animation: shake 0.45s ease;
 	border-color: rgba(255, 100, 80, 0.6) !important;
+}
+
+/* Registry — partial contributions
+   Cards can be funded in chunks, so the action row holds up to two buttons and
+   the card shows how much is still outstanding. */
+
+.registry-card-actions {
+  margin-top: auto;
+  display: flex;
+  gap: 0.4rem;
+  align-items: stretch;
+}
+
+/* Two buttons share the row evenly; a lone button still fills the width. */
+.registry-card-actions .registry-card-btn {
+  margin-top: 0;
+  flex: 1 1 0;
+  min-width: 0;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+/* Only when two buttons share the row: "Reservera" and "Bidra" both fit at the
+   normal size, so keep the type consistent with single-button cards and just
+   ease the tracking for slack. "Reservera resten" is the one label too long for
+   a half-width button — let it wrap rather than overflow. */
+.registry-card-actions .registry-card-btn:not(:only-child) {
+  letter-spacing: 0.06em;
+  white-space: normal;
+  text-align: center;
+}
+
+/* A fully funded card hides its split button, so the lone "Reserverad" gets the
+   same tracking as cards that never had one. */
+.registry-card.is-reserved .registry-card-actions .registry-card-btn {
+  letter-spacing: 0.1em;
+}
+
+.registry-card-btn-split {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.22);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.registry-card-btn-split:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.registry-card-progress {
+  margin: -0.25rem 0 0.6rem 0;
+}
+
+.registry-card-progress-bar {
+  height: 4px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.registry-card-progress-bar span {
+  display: block;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.75);
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+
+/* Once a card is partly funded its cost line becomes the outstanding amount,
+   with the original price struck through beside it. Brighter than the untouched
+   price so the live number leads. */
+.registry-card-cost s,
+.registry-modal-cost s {
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.45);
+  text-decoration-thickness: 1px;
+}
+
+/* The outstanding amount is the number that matters, so lift it slightly out of
+   the muted grey the plain price sits in. */
+.registry-card-cost.is-partial {
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.registry-modal-cost.is-partial {
+  color: #fff;
+}
+
+/* Preset amount chips */
+
+.registry-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 1.25rem;
+}
+
+.registry-preset {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 999px;
+  /* !important to beat the template's `button { color: #fff !important }` */
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-family: 'Lora', serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  padding: 0.4rem 0.85rem;
+  height: auto;
+  line-height: 1.3;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.registry-preset:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.registry-preset.is-selected {
+  background: rgba(255, 255, 255, 0.92);
+  border-color: #fff;
+  color: #2b2f27 !important;
+  font-weight: 600;
+}
+
+/* Registry modal — inline validation.
+   Matches the password gate's error treatment and reuses its shake keyframes. */
+
+.registry-modal-error {
+  font-family: 'Lora', serif;
+  font-size: 0.8rem;
+  color: rgba(255, 160, 140, 0.9);
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+  margin: -0.5rem 0 1rem 0;
+}
+
+.registry-modal input.shake {
+  animation: shake 0.45s ease;
+  border-color: rgba(255, 100, 80, 0.75) !important;
 }
