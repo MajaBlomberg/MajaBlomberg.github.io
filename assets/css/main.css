@@ -2060,7 +2060,10 @@ input, select, textarea {
 }
 
 .registry-card {
-  background: rgba(255,255,255,0.05);
+  /* Dark sage green. The article behind is light sage, so a translucent white
+     card left the white text at ~1.4:1 — unreadable. An opaque darker panel is
+     what makes the existing white-on-dark type work. */
+  background: #667E60;
   border: 1px solid rgba(255,255,255,0.1);
   border-radius: 8px;
   overflow: hidden;
@@ -2116,14 +2119,14 @@ input, select, textarea {
 .registry-card-cost {
   font-weight: 600;
   font-size: 0.9rem;
-  color: rgba(255,255,255,0.8);
+  color: #fff;
   margin-bottom: 0.5rem;
   letter-spacing: 0.05em;
 }
 
 .registry-card-desc {
   font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.7);
+  color: #fff;
   line-height: 1.5;
   margin-bottom: 0;
   max-height: 4.5em;
@@ -2148,7 +2151,7 @@ input, select, textarea {
   background: none;
   border: none;
   box-shadow: none;
-  color: rgba(255, 255, 255, 0.5) !important;
+  color: rgba(255, 255, 255, 0.9) !important;
   font-size: 0.8rem;
   font-family: 'Lora', serif;
   font-style: italic;
@@ -2166,7 +2169,7 @@ input, select, textarea {
 
 .registry-desc-toggle:hover {
   box-shadow: none;
-  color: rgba(255, 255, 255, 0.85) !important;
+  color: #fff !important;
 }
 
 .registry-card-btn {
@@ -2226,7 +2229,9 @@ input, select, textarea {
 }
 
 .registry-modal {
-  background: rgb(198, 202, 187);
+  /* Same dark sage green as the cards. The overlay behind it is rgba(0,0,0,.75),
+     so it still reads as lifted. Was light sage, which left labels at ~1.5:1. */
+  background: #667E60;
   border: none;
   border-radius: 4px;
   padding: 2rem;
@@ -2243,14 +2248,14 @@ input, select, textarea {
 
 .registry-modal-cost {
   font-size: 0.85rem;
-  color: rgba(255,255,255,0.75);
+  color: #fff;
   margin-bottom: 0.5rem;
   letter-spacing: 0.05em;
 }
 
 .registry-modal-note {
   font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.9);
+  color: #fff;
   margin-bottom: 1.25rem;
   line-height: 1.5;
   font-style: italic;
@@ -2575,7 +2580,7 @@ input, select, textarea {
 .registry-card-cost s,
 .registry-modal-cost s {
   font-weight: 400;
-  color: rgba(255, 255, 255, 0.45);
+  color: rgba(255, 255, 255, 0.65);
   text-decoration-thickness: 1px;
 }
 
@@ -2633,10 +2638,16 @@ input, select, textarea {
 .registry-modal-error {
   font-family: 'Lora', serif;
   font-size: 0.8rem;
-  color: rgba(255, 160, 140, 0.9);
+  /* Pale peach on a slightly darkened strip. A warm colour cannot reach AA
+     directly on the mid-tone green, so the strip supplies the contrast. */
+  color: #FFE3DC;
+  background: rgba(0, 0, 0, 0.3);
+  border-left: 2px solid rgba(255, 145, 125, 0.9);
+  border-radius: 3px;
+  padding: 0.5rem 0.7rem;
   letter-spacing: 0.04em;
   line-height: 1.5;
-  margin: -0.5rem 0 1rem 0;
+  margin: -0.25rem 0 1rem 0;
 }
 
 .registry-modal input.shake {
