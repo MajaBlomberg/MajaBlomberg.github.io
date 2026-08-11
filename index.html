@@ -122,6 +122,19 @@
 								<p>
 									<!-- Swedish -->
 									<span class="lang lang-se active">
+										<span class="intro-line">8 augusti 2026 &middot; Ekolsunds Slott</span>
+										<span class="intro-line">Tack snälla för att ni fyllde vår dag med så mycket kärlek och glädje! <br>Ni gjorde vårt bröllop till den mest fantastiska dagen vi någonsin kunnat drömma om.</span>
+									</span>
+
+									<!-- English -->
+									<span class="lang lang-en">
+										<span class="intro-line">August 8th, 2026 &middot; Ekolsund Castle</span>
+										<span class="intro-line">Thank you so much for filling our day with so much love and joy! <br>You made our wedding the most wonderful day we could have ever dreamed of.</span>
+									</span>
+								</p>
+
+								<!-- Pre-wedding invitation text — replaced after the wedding (2026-08-08).
+									<span class="lang lang-se active">
 										<span class="view-toggle view-mikael active">
 											Varmt välkomna på bröllop mellan Mikael & Maja den 8 Augusti 2026<br>
 											Vigsel, Middag och Fest hålls på Ekolsunds Slott. <br> OSA innan 8 Maj
@@ -131,8 +144,6 @@
 											Vigsel, Middag och Fest hålls på Ekolsunds Slott. <br> OSA innan 8 Maj
 										</span>
 									</span>
-
-									<!-- English -->
 									<span class="lang lang-en">
 										<span class="view-toggle view-mikael active">
 											Warm welcome to the wedding of Mikael & Maja on August 8th, 2026<br>
@@ -143,12 +154,13 @@
 											Ceremony, dinner and party at Ekolsunds Castle. <br> RSVP by May 8th
 										</span>
 									</span>
-								</p>
+								-->
 							</div>
 						</div>
 						<nav>
 							<ul>
-								<li><a href="#info_om_brollopet"> 
+								<!-- Info, Kontakter and OSA — disabled after the wedding (2026-08-08).
+								<li><a href="#info_om_brollopet">
 									<span class="lang lang-se"> Info om Bröllopet </span>
 									<span class="lang lang-en"> Info on the Wedding </span>
 								</a></li>
@@ -156,18 +168,27 @@
 									<span class="lang lang-se">Kontakter</span>
 									<span class="lang lang-en">Contacts</span>
 								</a></li>
-								<li><a href="#var_forlovning">
-									<span class="lang lang-se">Vår Förlovning</span>
-									<span class="lang lang-en">Our Engagement</span>
-								</a></li>
 								<li><a href="#osa">
 									<span class="lang lang-se">OSA Här</span>
 									<span class="lang lang-en">RSVP Here</span>
 								</a></li>
+								-->
+
+								<li><a href="#var_forlovning">
+									<span class="lang lang-se">Vår Förlovning</span>
+									<span class="lang lang-en">Our Engagement</span>
+								</a></li>
+								<li><a href="#gallery">
+									<span class="lang lang-se">Galleri</span>
+									<span class="lang lang-en">Gallery</span>
+								</a></li>
+
+								<!-- Registry — disabled after the wedding (2026-08-08).
 								<li><a href="#registry">
 									<span class="lang lang-se">Bröllopsregister</span>
 									<span class="lang lang-en">Wedding Registry</span>
 								</a></li>
+								-->
 
 								<!--<li><a href="#elements">Elements</a></li>-->
 							</ul>
@@ -179,7 +200,10 @@
 
 						
 
-						<!-- Info om Bröllopet -->
+						<!-- Info om Bröllopet — disabled after the wedding (2026-08-08).
+						     The "Google Maps" label inside was an HTML comment; flattened to
+						     plain text because HTML comments cannot nest.
+
 							<article id="info_om_brollopet">
 								<h2 class="major">
 									<span class="lang lang-se">Info om Bröllopet</span>
@@ -222,7 +246,7 @@
 								<p>
 									<span class="lang lang-en"> Address: Ekolsunds slottsallé 1, 749 50 Ekolsund, Sverige. <br><br> Parking can be found by the Inn (Värdshus). If you are traveling by public transport from Stockholm, you can take the train to Bålsta and then take bus number 803 towards Enköping. Stopping at Ekolsunds gård.</span>
 								</p>
-								<!-- Google Maps -->
+								Google Maps
 								<div class="map-wrapper">
 									<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3074.820309817436!2d17.364872729884574!3d59.6514384773712!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x465fb369e9ab1fc7%3A0x8d8787126716dbbe!2sEkolsunds%20Slottscaf%C3%A9%20och%20Butik!5e1!3m2!1sen!2suk!4v1752073102174!5m2!1sen!2suk" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
 									</iframe>
@@ -291,8 +315,8 @@
 									<span class="lang lang-en"> RSVP by May 8th and around that time a full update of the agenda and all other important information will be provided.</span>
 								</p>
 							</article>
-								
-						
+						-->
+
 						<!-- Intro -->
 							<article id="var_forlovning">
 								<h2 class="major">Vår Förlovning</h2> 
@@ -328,7 +352,8 @@
 								<span class="image main"><img src="images/IMG_7014.jpg" alt="" /></span>
 							</article>
 
-						<!-- About -->
+						<!-- Kontakter — disabled after the wedding (2026-08-08).
+
 							<article id="contacts">
 								<h2 class="major">Kontakter</h2>
 								<span class="image main"><img src="images/IMG_6799.jpg" alt="" /></span>
@@ -343,8 +368,12 @@
 										If you would like to give a speech during the dinner, please notify one of them in advance.</span>
 								</p>
 							</article>
+						-->
 
-						<!-- Contact -->
+						<!-- OSA / RSVP — disabled after the wedding (2026-08-08).
+						     Includes the form's Apps Script POST handler, so nothing
+						     is submitted any more.
+
 							<article id="osa">
 								<h2 class="major">
 									<span class="lang lang-se">OSA Här</span>
@@ -440,6 +469,7 @@
 									})();
 								</script>
 							</article>
+						-->
 
 						<!-- Elements -->
 							<article id="elements">
@@ -683,7 +713,32 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 
 							</article>
 
-					<!-- Registry -->
+					<!-- Galleri -->
+						<article id="gallery">
+							<h2 class="major">
+								<span class="lang lang-se">Galleri</span>
+								<span class="lang lang-en">Gallery</span>
+							</h2>
+							<p>
+								<span class="lang lang-se active">Bilder och filmer från vår dag, både våra egna och de ni delade med oss. Klicka på en bild för att se den i full storlek.</span>
+								<span class="lang lang-en">Photos and films from our day — ours and the ones you shared with us. Click any image to see it full size.</span>
+							</p>
+
+							<div class="gallery-grid" id="galleryGrid"></div>
+
+							<p class="gallery-status" id="galleryStatus" role="status" aria-live="polite">
+								<span class="lang lang-se active">Laddar galleriet…</span>
+								<span class="lang lang-en">Loading the gallery…</span>
+							</p>
+						</article>
+
+					<!-- Registry — disabled after the wedding (2026-08-08).
+					     To re-enable: remove this comment wrapper (and the matching one
+					     around the modal + script below, plus the nav <li> in the header).
+					     Note: the "Card: …" labels inside were originally HTML comments;
+					     they were flattened to plain text because HTML comments can't nest.
+					     Re-wrap them in <!-\- … -\-> if you turn this back on.
+
 						<article id="registry">
 							<h2 class="major">
 								<span class="lang lang-se">Bröllopsregister</span>
@@ -696,7 +751,7 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 
 							<div class="registry-grid">
 
-								<!-- Card: Honeymoon Contribution -->
+								Card: Honeymoon Contribution
 								<div class="registry-card" data-activity="Bidra till Smekmånaden" data-lockable="false">
 									<div class="registry-card-img">
 										<div class="registry-card-img-inner" style="background-image: url('images/bidra.jpg'); background-color: #667eea"></div>
@@ -721,7 +776,7 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 									</div>
 								</div>
 
-								<!-- Card: Taco & Mezcal Tour -->
+								Card: Taco & Mezcal Tour
 								<div class="registry-card" data-activity="Taco &amp; Mezcal-tur" data-lockable="true" data-cost="2500">
 									<div class="registry-card-img">
 										<div class="registry-card-img-inner" style="background-image: url('images/5mpht0M5H0E_taco_mescal.jpg'); background-color: #7a1e1e;"></div>
@@ -752,7 +807,7 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 									</div>
 								</div>
 
-								<!-- Card: Fine Dining – Pujol -->
+								Card: Fine Dining – Pujol
 								<div class="registry-card" data-activity="Exklusiv Middag – Pujol" data-lockable="true" data-cost="5000">
 									<div class="registry-card-img">
 										<div class="registry-card-img-inner" style="background-image: url('images/tkfV4_59gxw_Pujol.jpg'); background-color: #1a1008;"></div>
@@ -783,7 +838,7 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 									</div>
 								</div>
 
-								<!-- Card: Sunrise Hot Air Balloon – Teotihuacán -->
+								Card: Sunrise Hot Air Balloon – Teotihuacán
 								<div class="registry-card" data-activity="Soluppgång i Luftballong – Teotihuacán" data-lockable="true" data-cost="3750">
 									<div class="registry-card-img">
 										<div class="registry-card-img-inner" style="background-image: url('images/d8DGnvOk2ro_hot_air_balloon_teotihuacan.jpg'); background-color: #4a2c00;"></div>
@@ -816,7 +871,7 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 
 								
 
-								<!-- Card: Cenote Adventure -->
+								Card: Cenote Adventure
 								<div class="registry-card" data-activity="Cenote-utflykt" data-lockable="true" data-cost="3200">
 									<div class="registry-card-img">
 										<div class="registry-card-img-inner" style="background-image: url('images/sc7iU9zOhxM-cenote.jpg'); background-color: #041a2e;"></div>
@@ -848,7 +903,7 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 								</div>
 
 								
-								<!-- Card: Fine Dining Tulum -->
+								Card: Fine Dining Tulum
 								<div class="registry-card" data-activity="Exklusiv Middag i Tulum" data-lockable="true" data-cost="2500">
 									<div class="registry-card-img">
 										<div class="registry-card-img-inner" style="background-image: url('images/gu5qNU0q6ZI_tulum_dinner.jpg'); background-color: #1a1008;"></div>
@@ -879,7 +934,7 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 									</div>
 								</div>
 
-								<!-- Card: Extra Legroom Flight Upgrade -->
+								Card: Extra Legroom Flight Upgrade
 								<div class="registry-card" data-activity="Uppgradering till Benutrymme på Flyget" data-lockable="true" data-cost="2000">
 									<div class="registry-card-img">
 										<div class="registry-card-img-inner" style="background-image: url('images/flight-legroom.jpeg'); background-color: #3b6ea5;"></div>
@@ -911,7 +966,7 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 								</div>
 
 
-								<!-- Card: Golf Cart Rental -->
+								Card: Golf Cart Rental
 								<div class="registry-card" data-activity="Golfbilsuthyrning – Holbox" data-lockable="true" data-cost="1000">
 									<div class="registry-card-img">
 										<div class="registry-card-img-inner" style="background-image: url('images/golf-cart.jpg'); background-color: #2a4a1a;"></div>
@@ -938,7 +993,7 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 									</div>
 								</div>
 								
-								<!-- Card: Snorkeling with Sea Turtles -->
+								Card: Snorkeling with Sea Turtles
 								<div class="registry-card" data-activity="Snorkling med Sköldpaddor i Akumal" data-lockable="true" data-cost="3200">
 									<div class="registry-card-img">
 										<div class="registry-card-img-inner" style="background-image: url('images/GqwoiT7QY8_Turtle.jpg'); background-color: #378db8;"></div>
@@ -970,7 +1025,7 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 								</div>
 
 								
-								<!-- Card: Museum Tour -->
+								Card: Museum Tour
 								<div class="registry-card" data-activity="Museumstur – Mexico City" data-lockable="true" data-cost="500">
 									<div class="registry-card-img">
 										<div class="registry-card-img-inner" style="background-image: url('images/museum.jpg'); background-color: #1a0a2e;"></div>
@@ -997,7 +1052,7 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 									</div>
 								</div>
 
-								<!-- Card: Guided City Walk -->
+								Card: Guided City Walk
 								<div class="registry-card" data-activity="Guidad Stadsvandring – Mexico City" data-lockable="true" data-cost="500">
 									<div class="registry-card-img">
 										<div class="registry-card-img-inner" style="background-image: url('images/street_tour.png'); background-color: #1a0a2e;"></div>
@@ -1026,7 +1081,7 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 
 								
 
-								<!-- Card: Tulum Ruins & Beach Day -->
+								Card: Tulum Ruins & Beach Day
 								<div class="registry-card" data-activity="Tulum-ruiner &amp; Stranddag" data-lockable="true" data-cost="1500">
 									<div class="registry-card-img">
 										<div class="registry-card-img-inner" style="background-image: url('images/z_b5fhL2wyc_Tulum_Ruins.jpg'); background-color: #0d4a5e;"></div>
@@ -1057,7 +1112,7 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 									</div>
 								</div>
 
-								<!-- Card: Spa & Massage -->
+								Card: Spa & Massage
 								<div class="registry-card" data-activity="Spa &amp; Massage – Tulum" data-lockable="true" data-cost="1500">
 									<div class="registry-card-img">
 										<div class="registry-card-img-inner" style="background-image: url('images/spa-tulum.jpg'); background-color: #2a4a1a;"></div>
@@ -1088,7 +1143,7 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 									</div>
 								</div>
 
-								<!-- Card: Bioluminescence Tour -->
+								Card: Bioluminescence Tour
 								<div class="registry-card" data-activity="Bioluminiscens-tur på Kvällen" data-lockable="true" data-cost="1100">
 									<div class="registry-card-img">
 										<div class="registry-card-img-inner" style="background-image: url('images/KpHR7ecgsRY_Bioluminescence.jpg'); background-color: #020c1b;"></div>
@@ -1115,7 +1170,7 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 									</div>
 								</div>
 
-								<!-- Card: Three Islands Boat Tour -->
+								Card: Three Islands Boat Tour
 								<div class="registry-card" data-activity="Tre Öar Båttur – Holbox" data-lockable="true" data-cost="1000">
 									<div class="registry-card-img">
 										<div class="registry-card-img-inner" style="background-image: url('images/ONObTZNkkz0_Three_Islands_Boat.jpg'); background-color: #0a3d5c;"></div>
@@ -1143,7 +1198,7 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 								</div>
 
 
-								<!-- Card: Mangrove Kayak Sunset -->
+								Card: Mangrove Kayak Sunset
 								<div class="registry-card" data-activity="Kajaktur i Mangroverna – Holbox" data-lockable="true" data-cost="900">
 									<div class="registry-card-img">
 										<div class="registry-card-img-inner" style="background-image: url('images/UFqV-RqPm8w_Mangrove_Kayak.jpg'); background-color: #2a4a1a;"></div>
@@ -1169,7 +1224,7 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 										</div>
 									</div>
 								</div>
-								<!-- Card: Lucha Libre -->
+								Card: Lucha Libre
 								<div class="registry-card" data-activity="Lucha Libre med Tacos &amp; Öl" data-lockable="true" data-cost="1750">
 									<div class="registry-card-img">
 										<div class="registry-card-img-inner" style="background-image: url('images/OebdsI0Q4F0_Lucha_Libre.jpeg'); background-color: #1a0a2e;"></div>
@@ -1199,7 +1254,7 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 										</div>
 									</div>
 								</div>
-								<!-- Card: Cooking Class -->
+								Card: Cooking Class
 								<div class="registry-card" data-activity="Matlagningskurs – Tulum" data-lockable="true" data-cost="1400">
 									<div class="registry-card-img">
 										<div class="registry-card-img-inner" style="background-image: url('images/AE43FNpJVZQ_cooking_class.jpg'); background-color: #3a1a00;"></div>
@@ -1226,8 +1281,9 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 									</div>
 								</div>
 
-							</div><!-- /.registry-grid -->
+							</div>  /.registry-grid
 						</article>
+					-->
 
 					</div>
 
@@ -1304,7 +1360,300 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 				});
 			</script>
 	
-	<!-- Registry Modal -->
+	<!-- Gallery lightbox -->
+	<div class="gallery-lightbox" id="galleryLightbox" role="dialog" aria-modal="true" aria-label="Galleri">
+		<button class="gallery-lb-btn gallery-lb-close" id="galleryLbClose" type="button" aria-label="Stäng / Close">&#10005;</button>
+		<button class="gallery-lb-btn gallery-lb-nav gallery-lb-prev" id="galleryLbPrev" type="button" aria-label="Föregående / Previous">&#10094;</button>
+		<button class="gallery-lb-btn gallery-lb-nav gallery-lb-next" id="galleryLbNext" type="button" aria-label="Nästa / Next">&#10095;</button>
+		<div class="gallery-lb-stage" id="galleryLbStage"></div>
+		<div class="gallery-lb-bar">
+			<span class="gallery-lb-count" id="galleryLbCount"></span>
+			<a class="gallery-lb-open" id="galleryLbOpen" href="#" target="_blank" rel="noopener">
+				<span class="lang lang-se active">Öppna original</span>
+				<span class="lang lang-en">Open original</span>
+			</a>
+		</div>
+	</div>
+
+	<script>
+		/* ── Gallery ──────────────────────────────────────────────────────────
+		   Reads gallery.json (built by tools/build-gallery.py) and renders a
+		   thumbnail grid plus a lightbox. Media itself lives in R2, not in this
+		   repo — gallery.json carries the base URL.
+
+		   Two things fight us here, both from the Dimension template's main.js:
+		   a body-level click handler that closes the open article, and a
+		   window-level Esc handler that does the same. The lightbox therefore
+		   stops both from propagating while it is open, otherwise closing the
+		   lightbox would dump you back to the landing page.                    */
+		(function () {
+			'use strict';
+
+			var MANIFEST_URL = 'gallery.json';
+
+			var grid = document.getElementById('galleryGrid');
+			var status = document.getElementById('galleryStatus');
+			var lb = document.getElementById('galleryLightbox');
+			var stage = document.getElementById('galleryLbStage');
+			var countEl = document.getElementById('galleryLbCount');
+			var openEl = document.getElementById('galleryLbOpen');
+			var closeBtn = document.getElementById('galleryLbClose');
+			var prevBtn = document.getElementById('galleryLbPrev');
+			var nextBtn = document.getElementById('galleryLbNext');
+
+			if (!grid) return;
+
+			var items = [];
+			var base = '';
+			var index = 0;
+			var isOpen = false;
+			var swallowEscKeyup = false;
+			var lastFocused = null;
+
+			// ---- Helpers ----
+
+			function url(path) {
+				if (!path) return '';
+				if (/^https?:\/\//.test(path)) return path;
+				return base ? base + '/' + path : path;
+			}
+
+			function setStatus(se, en) {
+				if (!status) return;
+				status.innerHTML =
+					'<span class="lang lang-se">' + se + '</span>' +
+					'<span class="lang lang-en">' + en + '</span>';
+				// Re-apply whatever language is currently selected.
+				var lang = document.documentElement.lang === 'en' ? 'en' : 'se';
+				status.querySelectorAll('.lang-' + lang).forEach(function (el) {
+					el.classList.add('active');
+				});
+				status.style.display = '';
+			}
+
+			function duration(seconds) {
+				if (!seconds) return '';
+				var m = Math.floor(seconds / 60);
+				var s = Math.round(seconds % 60);
+				return m + ':' + (s < 10 ? '0' : '') + s;
+			}
+
+			// ---- Grid ----
+
+			function renderGrid(thumbSize) {
+				var frag = document.createDocumentFragment();
+
+				items.forEach(function (item, i) {
+					var a = document.createElement('a');
+					a.className = 'gallery-item' + (item.type === 'video' ? ' is-video' : '');
+					a.href = url(item.type === 'video' ? item.src : item.full);
+					a.setAttribute('data-index', i);
+
+					var img = document.createElement('img');
+					img.src = url(item.thumb);
+					img.loading = 'lazy';
+					img.decoding = 'async';
+					img.width = thumbSize;
+					img.height = thumbSize;
+					img.alt = '';
+					a.appendChild(img);
+
+					if (item.type === 'video') {
+						var badge = document.createElement('span');
+						badge.className = 'gallery-play';
+						badge.setAttribute('aria-hidden', 'true');
+						a.appendChild(badge);
+
+						if (item.dur) {
+							var dur = document.createElement('span');
+							dur.className = 'gallery-duration';
+							dur.textContent = duration(item.dur);
+							a.appendChild(dur);
+						}
+					}
+
+					a.addEventListener('click', function (e) {
+						// Let cmd/ctrl/middle-click open the file directly.
+						if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+						e.preventDefault();
+						open(i);
+					});
+
+					frag.appendChild(a);
+				});
+
+				grid.appendChild(frag);
+			}
+
+			// ---- Lightbox ----
+
+			function clearStage() {
+				var video = stage.querySelector('video');
+				if (video) {
+					video.pause();
+					video.removeAttribute('src');
+					video.load();
+				}
+				stage.innerHTML = '';
+			}
+
+			function show(i) {
+				if (!items.length) return;
+				// Wrap around at both ends.
+				index = (i + items.length) % items.length;
+				var item = items[index];
+
+				clearStage();
+
+				var el;
+				if (item.type === 'video') {
+					el = document.createElement('video');
+					el.src = url(item.src);
+					el.poster = url(item.poster);
+					el.controls = true;
+					el.autoplay = true;
+					el.playsInline = true;
+					el.setAttribute('playsinline', '');
+					el.preload = 'metadata';
+				} else {
+					el = document.createElement('img');
+					el.src = url(item.full);
+					el.alt = '';
+				}
+				if (item.w && item.h) {
+					el.width = item.w;
+					el.height = item.h;
+				}
+				stage.appendChild(el);
+
+				countEl.textContent = (index + 1) + ' / ' + items.length;
+				openEl.href = url(item.type === 'video' ? item.src : item.full);
+
+				// Warm the neighbours so paging feels instant.
+				[index - 1, index + 1].forEach(function (n) {
+					var neighbour = items[(n + items.length) % items.length];
+					if (neighbour && neighbour.type === 'photo') {
+						var pre = new Image();
+						pre.src = url(neighbour.full);
+					}
+				});
+			}
+
+			function open(i) {
+				lastFocused = document.activeElement;
+				isOpen = true;
+				lb.classList.add('is-open');
+				document.body.classList.add('gallery-lb-open');
+				show(i);
+				closeBtn.focus();
+			}
+
+			function close() {
+				if (!isOpen) return;
+				isOpen = false;
+				lb.classList.remove('is-open');
+				document.body.classList.remove('gallery-lb-open');
+				clearStage();
+				if (lastFocused && lastFocused.focus) lastFocused.focus();
+			}
+
+			closeBtn.addEventListener('click', close);
+			prevBtn.addEventListener('click', function () { show(index - 1); });
+			nextBtn.addEventListener('click', function () { show(index + 1); });
+
+			// Backdrop click closes; clicks on the media itself do not.
+			lb.addEventListener('click', function (e) {
+				if (e.target === lb || e.target === stage) close();
+				// Never let a lightbox click reach main.js's body handler,
+				// which would close the article underneath.
+				e.stopPropagation();
+			});
+
+			document.addEventListener('keydown', function (e) {
+				if (!isOpen) return;
+				if (e.key === 'Escape') {
+					swallowEscKeyup = true;
+					e.preventDefault();
+					close();
+				} else if (e.key === 'ArrowLeft') {
+					e.preventDefault();
+					show(index - 1);
+				} else if (e.key === 'ArrowRight') {
+					e.preventDefault();
+					show(index + 1);
+				}
+			});
+
+			// main.js listens for Esc on window; document bubbles first, so this
+			// swallows the keyup that would otherwise also close the article.
+			document.addEventListener('keyup', function (e) {
+				if (e.key !== 'Escape') return;
+				if (isOpen || swallowEscKeyup) {
+					swallowEscKeyup = false;
+					e.stopPropagation();
+				}
+			});
+
+			// Swipe between items on touch devices.
+			var touchX = null, touchY = null;
+			lb.addEventListener('touchstart', function (e) {
+				if (e.touches.length !== 1) return;
+				touchX = e.touches[0].clientX;
+				touchY = e.touches[0].clientY;
+			}, { passive: true });
+			lb.addEventListener('touchend', function (e) {
+				if (touchX === null) return;
+				var dx = e.changedTouches[0].clientX - touchX;
+				var dy = e.changedTouches[0].clientY - touchY;
+				touchX = touchY = null;
+				// Horizontal, and clearly more horizontal than vertical.
+				if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+					show(dx < 0 ? index + 1 : index - 1);
+				}
+			}, { passive: true });
+
+			// ---- Load ----
+
+			function load() {
+				fetch(MANIFEST_URL, { cache: 'no-cache' })
+					.then(function (r) {
+						if (!r.ok) throw new Error('HTTP ' + r.status);
+						return r.json();
+					})
+					.then(function (data) {
+						// Accept both {mediaBase, items:[…]} and a bare array.
+						var list = Array.isArray(data) ? data : (data.items || []);
+						base = (Array.isArray(data) ? '' : (data.mediaBase || '')).replace(/\/$/, '');
+						items = list.filter(function (it) { return it && it.thumb; });
+
+						if (!items.length) {
+							setStatus('Galleriet är inte uppladdat ännu — kika tillbaka snart!',
+								'The gallery is not up yet — check back soon!');
+							return;
+						}
+
+						renderGrid((Array.isArray(data) ? 500 : data.thumbSize) || 500);
+						if (status) status.style.display = 'none';
+					})
+					.catch(function () {
+						setStatus('Kunde inte ladda galleriet. Prova att ladda om sidan.',
+							'Could not load the gallery. Try reloading the page.');
+					});
+			}
+
+			if (document.readyState === 'loading') {
+				document.addEventListener('DOMContentLoaded', load);
+			} else {
+				load();
+			}
+
+		}());
+	</script>
+
+	<!-- Registry modal + registry script — disabled after the wedding (2026-08-08).
+	     Kept for reference; the script also polled the Apps Script endpoint on every
+	     page load, so it is commented out together with the markup.
+
 	<div class="registry-modal-overlay" id="registryModalOverlay" role="dialog" aria-modal="true" aria-labelledby="registryModalTitle">
 		<div class="registry-modal">
 			<div id="registryModalForm">
@@ -1978,5 +2327,6 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 
 			}());
 		</script>
+	-->
 	</body>
 </html>

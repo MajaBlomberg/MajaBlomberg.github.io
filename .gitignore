@@ -10,3 +10,10 @@ worker/.dev.vars
 
 # local test artifacts
 .playwright-mcp/
+
+# Gallery: built derivatives go to R2, never to git
+gallery-build/
+__pycache__/
+
+# Local secrets
+.env
